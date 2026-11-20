@@ -1,0 +1,116 @@
+{
+  "client": {
+    "name": "Maple Grove Middle School",
+    "about": "Maple Grove Middle School is a public school in Ohio, grades 6 to 8. Its library lends a few thousand books a year to about six hundred students and their teachers, from one desk with two computers and a tablet. LibraryDesk is that desk: the collection with its copies, the readers, loans, renewals, reservations and the fines nobody likes.",
+    "contacts": "Rachel Owens (school librarian), Daniel Price (library aide) and Marcus Lee (district IT technician) report the tickets.",
+    "reporters": [
+      {
+        "name": "Rachel Owens",
+        "role": "School librarian"
+      },
+      {
+        "name": "Daniel Price",
+        "role": "Library aide"
+      },
+      {
+        "name": "Marcus Lee",
+        "role": "District IT technician"
+      }
+    ]
+  },
+  "project": {
+    "name": "LibraryDesk",
+    "about": "The loans desk of a school library: books and their copies, readers, loans of 14 days, renewals, reservations with a queue and fines of 25 cents a day. Its data lives in a MySQL database.",
+    "stack": "React, Vite, React Router and CSS Modules; Node.js, Express and Sequelize; MySQL",
+    "skills": [
+      "Dates, numbers and text",
+      "Business rules and layers",
+      "Databases and queries",
+      "Search, filters and pagination",
+      "Input validation",
+      "Routes and endpoints",
+      "Error handling and resilience",
+      "Local and derived state",
+      "Language and types",
+      "Web platform: DOM and events",
+      "Building components",
+      "Layout and CSS"
+    ]
+  },
+  "messages": {
+    "welcome": {
+      "subject": "Welcome to the LibraryDesk project!",
+      "body": "Hi, and welcome aboard!\n\nI'm Rafaela, the engineering manager here. You're joining **LibraryDesk**, the loans desk we build for the library of **Maple Grove Middle School**, a public school in Ohio. Rachel, the librarian, runs it with a line of students in front of her between classes, so when something is wrong she finds out with a book in one hand and a student waiting.\n\nHere's how we work:\n\n- Your tickets show up on the **Board**. Take one at a time: drag it to **In Progress** when you start, and to **In QA** when you think it's done. Most tickets are bugs to fix; two ask you to build something that is missing, and one to finish something that was left half done.\n- The code lives in your workspace container. **Open in VS Code** attaches your editor to it, with Node, the terminal and the debugger already set up. Run `npm run dev` in the VS Code terminal and use **Open app in browser** to try the desk.\n- This project has a real database server: a **MySQL** that runs next to your workspace. The Dashboard shows whether it is ready. To look inside, run `mysql -u root -p librarydesk` in the VS Code terminal (the password is `librarydesk`), and `npm run db:reset` puts the sample library back whenever you want a clean start.\n- The server is built with Express and talks to the database through Sequelize; the screens are React with CSS Modules. The school is in New York's time zone, and the desk counts due dates in it. If any of this is new to you, read `README.md` first: it says where each kind of code lives.\n- QA runs the project tests first, then checks the ticket itself. If something fails, the card comes back with notes.\n- Stuck? Message **Priya** from the ticket. She'll point you in the right direction, one hint at a time.\n\nWhen you're ready, click **Get next assignment**. I picked a nice first one for you.\n\nRafaela"
+    },
+    "assignments": {
+      "back-1": {
+        "subject": "New ticket: LD-201",
+        "body": "A student who returned a book on its due day was charged a fine. Rachel tells the students they have until the end of the day, and the desk disagrees.\n\nLook at how \"late\" is counted."
+      },
+      "back-2": {
+        "subject": "New ticket: LD-202",
+        "body": "Two readers have the same copy of a book, and there is one book. The desk refuses a copy that is out, most of the time.\n\nFind the time it does not."
+      },
+      "back-3": {
+        "subject": "New ticket: LD-203",
+        "body": "Searching an author in the collection finds only a book with that name in its title. The search box says \"Title or author\".\n\nCheck what the search compares."
+      },
+      "back-4": {
+        "subject": "New ticket: LD-204",
+        "body": "Daniel could not add a single donated book: the form refuses every ISBN, and the same numbers go in without their dashes.\n\nFollow the ISBN from the form to the database."
+      },
+      "back-5": {
+        "subject": "New ticket: LD-205",
+        "body": "Rachel sent overdue reminders for books that were already back on the shelf. The Overdue tab has more than it should.\n\nCompare it with the On loan tab."
+      },
+      "back-6": {
+        "subject": "New ticket: LD-206",
+        "body": "The Renew button is on every loan and the API behind it was never built. The ticket lists the rules of a renewal.\n\nBuild it next to the other actions of a loan."
+      },
+      "back-7": {
+        "subject": "New ticket: LD-207",
+        "body": "One old bookmark stops the whole desk: opening a reader that no longer exists ends the API process, and everyone is stuck until it restarts.\n\nAn unknown book does not do that. Compare the two."
+      },
+      "front-1": {
+        "subject": "New ticket: LD-101",
+        "body": "On the page of a book, the number of copies available does not change after a loan, while everything around it does.\n\nLook at where that number comes from."
+      },
+      "front-2": {
+        "subject": "New ticket: LD-102",
+        "body": "A student who owes two fines sees \"$NaN\" on his page, and the desk cannot mark them as paid. With one fine the total is right.\n\nLook at what the API sends and what the client thinks it sends."
+      },
+      "front-3": {
+        "subject": "New ticket: LD-103",
+        "body": "Choosing an author with the keyboard sends the whole New book form before it is filled.\n\nWatch what Enter does in that field."
+      },
+      "front-4": {
+        "subject": "New ticket: LD-104",
+        "body": "The collection sorted by title files \"The Giver\" under T. Every library catalog files it under G.\n\nThe rule is somewhere in the code already."
+      },
+      "front-5": {
+        "subject": "New ticket: LD-105",
+        "body": "Going from one reader to a classmate shows the new name with the books of the reader before.\n\nWatch which requests the page makes when the reader changes."
+      },
+      "front-6": {
+        "subject": "New ticket: LD-106",
+        "body": "Every status in the desk shows as a raw word of the API. The screens already call a badge component that was never built.\n\nThe ticket has the labels and the colors."
+      },
+      "front-7": {
+        "subject": "New ticket: LD-107",
+        "body": "The loans table does not fit a phone: the page scrolls sideways and the buttons are off the screen.\n\nThe markup is ready for something the CSS never did."
+      },
+      "front-8": {
+        "subject": "New ticket: LD-108",
+        "body": "Reserving was left half done: the form only appears for books with a copy on the shelf, which is the case where nobody needs a queue.\n\nFinish the other half."
+      }
+    },
+    "completion": {
+      "subject": "LibraryDesk: project done!",
+      "body": "You completed the whole {{track}} track of LibraryDesk, so this project is done on your side. Rachel says the line at the desk moved faster this week than it has all year, and Daniel and Marcus send their thanks too.\n\nYou can keep going with the other tracks of LibraryDesk whenever you like. New projects are on their way too.\n\nThanks for the effort.\n\nRafaela"
+    },
+    "trackCompletion": {
+      "subject": "The {{track}} track is done!",
+      "body": "You closed every {{track}} ticket of LibraryDesk. Rachel noticed: no more paper notes taped to the desk.\n\nThanks for the effort.\n\nRafaela"
+    }
+  }
+}

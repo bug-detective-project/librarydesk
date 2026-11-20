@@ -1,0 +1,7 @@
+{
+  "hints": [
+    "A marcação está pronta para cartões: toda célula do `client/src/components/LoanTable.tsx` tem um `data-label`. O que falta está em `client/src/components/LoanTable.module.css`: leia o que a tabela faz em qualquer largura, e procure uma regra para telas estreitas.",
+    "O `.table td` tem `white-space: nowrap`, então nenhuma célula quebra linha, e não há nenhuma regra para largura estreita: seis colunas de texto que não quebram são mais largas que um celular. A tabela é usada em páginas de larguras diferentes (ao lado do menu, dentro da página de um leitor), então a largura que importa é o espaço da própria tabela, não a da janela: é isso que uma container query mede.",
+    "Envolva a tabela num elemento com `container-type: inline-size` (o `LoanTable.tsx` pode renderizar um `div` em volta), e acrescente `@container (max-width: 699px) { … }` com `display: block` para a tabela, as linhas e as células, `display: none` para o `thead`, cada célula como uma linha flex com `content: attr(data-label)` no `td::before`. Tire o `white-space: nowrap` das células, mantendo só onde um valor precisa ficar numa linha (uma data, um valor)."
+  ]
+}

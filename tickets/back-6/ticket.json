@@ -1,0 +1,13 @@
+{
+  "type": "build",
+  "skills": {
+    "en": [
+      "Routes and endpoints",
+      "Business rules and layers"
+    ],
+    "pt": [
+      "Criação de rotas e endpoints",
+      "Regras de negócio e camadas"
+    ]
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "hints": [
+    "O Daniel tem razão: atrasado é uma parte de emprestado, então precisa ter toda condição de emprestado e mais uma. As duas abas chamam o mesmo endpoint com `status=active` e `status=overdue`; leia o `findLoans` em `server/src/library.ts`.",
+    "Para `active` o `where` é `{ returnedAt: null }`. Para `overdue` é `{ dueOn: { [Op.lt]: today() } }`: um prazo no passado, e nada sobre o exemplar ter voltado. Todo empréstimo devolvido também tem prazo no passado.",
+    "Mantenha a condição de `active` e acrescente a data: `{ dueOn: { [Op.lt]: today() }, returnedAt: null }`. Duas chaves num mesmo objeto `where` do Sequelize são unidas com AND."
+  ]
+}

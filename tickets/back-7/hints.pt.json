@@ -1,0 +1,7 @@
+{
+  "hints": [
+    "`/api/books/99999` e `/api/readers/99999` terminam num `NotFoundError`, e só um deles derruba o processo. Então a diferença não está no `library.ts`: compare como as duas rotas passam o erro adiante, em `server/src/routes/books.ts` e `server/src/routes/readers.ts`.",
+    "O Express 5 pega o que uma rota `async` lança, ou uma promessa que a rota **devolve**, e entrega ao tratador de erros do `app.ts`. A rota de um leitor não é `async` e não devolve a promessa: `findReader(...).then((reader) => res.json(reader))`. Quando o `findReader` rejeita, ninguém está escutando: é uma rejeição sem tratamento, e o Node encerra o processo.",
+    "Escreva a rota como as vizinhas: `router.get('/readers/:id', async (req, res) => { res.json(await findReader(req.params.id)); })`. Agora a rejeição chega ao Express, o tratador de erros responde o 404 com a mensagem do `NotFoundError`, e o processo continua de pé."
+  ]
+}

@@ -1,0 +1,33 @@
+diff --git a/client/src/components/ReserveForm.tsx b/client/src/components/ReserveForm.tsx
+index 6319fc2..3acfebb 100644
+--- a/client/src/components/ReserveForm.tsx
++++ b/client/src/components/ReserveForm.tsx
+@@ -21,12 +21,9 @@ export function ReserveForm({ book, readers, onReserved }: { book: BookDetails;
+     setSaving(true);
+     try {
+       const reader = readers.find((one) => String(one.id) === readerId)!;
+-      const result = await reserveBook(book.id, reader.id);
+-      if (result.ready) {
+-        toast.success(`A copy of ${book.title} is put aside for ${reader.name}`);
+-      } else {
+-        toast.success(`${reader.name} is number ${result.position} in the queue for ${book.title}`);
+-      }
++      await reserveBook(book.id, reader.id);
++      // TODO (LD-108): a book with every copy out puts the reader in its queue; say their place.
++      toast.success(`A copy of ${book.title} is put aside for ${reader.name}`);
+       setReaderId('');
+       onReserved();
+     } catch (error) {
+diff --git a/client/src/pages/BookPage.tsx b/client/src/pages/BookPage.tsx
+index 70e154c..aa3245e 100644
+--- a/client/src/pages/BookPage.tsx
++++ b/client/src/pages/BookPage.tsx
+@@ -103,7 +103,7 @@ export function BookPage() {
+             ) : (
+               <p className={ui.muted}>Nobody is waiting for this book.</p>
+             )}
+-            <ReserveForm book={book} readers={readers ?? []} onReserved={reload} />
++            {book.available > 0 && <ReserveForm book={book} readers={readers ?? []} onReserved={reload} />}
+           </section>
+         </aside>
+       </div>

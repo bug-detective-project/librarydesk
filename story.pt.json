@@ -1,0 +1,116 @@
+{
+  "client": {
+    "name": "Maple Grove Middle School",
+    "about": "A Maple Grove Middle School é uma escola pública de Ohio, do 6º ao 8º ano. A biblioteca empresta alguns milhares de livros por ano para uns seiscentos alunos e seus professores, a partir de um balcão com dois computadores e um tablet. O LibraryDesk é esse balcão: o acervo com seus exemplares, os leitores, empréstimos, renovações, reservas e as multas de que ninguém gosta.",
+    "contacts": "Rachel Owens (bibliotecária da escola), Daniel Price (auxiliar da biblioteca) e Marcus Lee (técnico de TI do distrito) relatam os tickets.",
+    "reporters": [
+      {
+        "name": "Rachel Owens",
+        "role": "Bibliotecária da escola"
+      },
+      {
+        "name": "Daniel Price",
+        "role": "Auxiliar da biblioteca"
+      },
+      {
+        "name": "Marcus Lee",
+        "role": "Técnico de TI do distrito"
+      }
+    ]
+  },
+  "project": {
+    "name": "LibraryDesk",
+    "about": "O balcão de empréstimos de uma biblioteca escolar: livros e seus exemplares, leitores, empréstimos de 14 dias, renovações, reservas com fila e multas de 25 centavos por dia. Os dados ficam num banco MySQL.",
+    "stack": "React, Vite, React Router e CSS Modules; Node.js, Express e Sequelize; MySQL",
+    "skills": [
+      "Datas, números e texto",
+      "Regras de negócio e camadas",
+      "Banco de dados e consultas",
+      "Busca, filtros e paginação",
+      "Validação de entrada",
+      "Criação de rotas e endpoints",
+      "Erros e resiliência",
+      "Estado local e derivado",
+      "Linguagem e tipos",
+      "Plataforma web: DOM e eventos",
+      "Criação de componentes",
+      "Layout e CSS"
+    ]
+  },
+  "messages": {
+    "welcome": {
+      "subject": "Boas-vindas ao projeto LibraryDesk!",
+      "body": "Oi, e boas-vindas!\n\nSou a Rafaela, gerente de engenharia aqui. Você está entrando no **LibraryDesk**, o balcão de empréstimos que construímos para a biblioteca da **Maple Grove Middle School**, uma escola pública de Ohio. A Rachel, a bibliotecária, usa o sistema com uma fila de alunos na frente dela entre as aulas, então quando algo dá errado ela descobre com um livro na mão e um aluno esperando.\n\nVeja como trabalhamos:\n\n- Seus tickets aparecem no **Board**. Pegue um por vez: arraste para **In Progress** quando começar e para **In QA** quando achar que terminou. A maioria dos tickets são bugs para consertar; dois pedem para construir algo que falta, e um para terminar algo que ficou pela metade.\n- O código fica no container do seu workspace. **Open in VS Code** conecta o seu editor a ele, com Node, o terminal e o depurador já configurados. Rode `npm run dev` no terminal do VS Code e use **Open app in browser** para testar o balcão.\n- Este projeto tem um servidor de banco de verdade: um **MySQL** que roda ao lado do seu workspace. O Dashboard mostra se ele está pronto. Para olhar dentro, rode `mysql -u root -p librarydesk` no terminal do VS Code (a senha é `librarydesk`), e `npm run db:reset` traz a biblioteca de exemplo de volta sempre que você quiser começar do zero.\n- O servidor é feito com Express e fala com o banco pelo Sequelize; as telas são React com CSS Modules. A escola fica no fuso de Nova York, e o balcão conta os prazos nele. Se algo disso for novo para você, leia o `README.md` primeiro: ele diz onde fica cada tipo de código.\n- A QA roda os testes do projeto primeiro e depois confere o próprio ticket. Se algo falhar, o cartão volta com observações.\n- Travou? Mande mensagem para a **Priya** pelo ticket. Ela vai te apontar a direção, uma dica por vez.\n\nQuando estiver pronto, clique em **Get next assignment**. Escolhi um primeiro ticket legal para você.\n\nRafaela"
+    },
+    "assignments": {
+      "back-1": {
+        "subject": "Novo ticket: LD-201",
+        "body": "Uma aluna que devolveu um livro no último dia do prazo levou multa. A Rachel diz aos alunos que eles têm até o fim do dia, e o balcão discorda.\n\nVeja como o \"atraso\" é contado."
+      },
+      "back-2": {
+        "subject": "Novo ticket: LD-202",
+        "body": "Dois leitores estão com o mesmo exemplar de um livro, e o livro é um só. O balcão recusa um exemplar emprestado, na maioria das vezes.\n\nAche a vez em que não recusa."
+      },
+      "back-3": {
+        "subject": "Novo ticket: LD-203",
+        "body": "Buscar um autor no acervo só acha um livro que tem esse nome no título. O campo de busca diz \"Title or author\".\n\nConfira o que a busca compara."
+      },
+      "back-4": {
+        "subject": "Novo ticket: LD-204",
+        "body": "O Daniel não conseguiu cadastrar nenhum livro doado: o formulário recusa todo ISBN, e os mesmos números entram sem os traços.\n\nSiga o ISBN do formulário até o banco."
+      },
+      "back-5": {
+        "subject": "Novo ticket: LD-205",
+        "body": "A Rachel mandou avisos de atraso de livros que já tinham voltado para a estante. A aba Overdue tem mais do que devia.\n\nCompare com a aba On loan."
+      },
+      "back-6": {
+        "subject": "Novo ticket: LD-206",
+        "body": "O botão Renew está em todo empréstimo e a API por trás dele nunca foi construída. O ticket lista as regras de uma renovação.\n\nConstrua ao lado das outras ações de um empréstimo."
+      },
+      "back-7": {
+        "subject": "Novo ticket: LD-207",
+        "body": "Um favorito antigo para o balcão inteiro: abrir um leitor que não existe mais encerra o processo da API, e todo mundo fica travado até ela subir de novo.\n\nUm livro desconhecido não faz isso. Compare os dois."
+      },
+      "front-1": {
+        "subject": "Novo ticket: LD-101",
+        "body": "Na página de um livro, o número de exemplares disponíveis não muda depois de um empréstimo, enquanto tudo em volta muda.\n\nVeja de onde vem esse número."
+      },
+      "front-2": {
+        "subject": "Novo ticket: LD-102",
+        "body": "Um aluno que deve duas multas vê \"$NaN\" na página dele, e o balcão não consegue marcá-las como pagas. Com uma multa só, o total sai certo.\n\nVeja o que a API manda e o que o cliente acha que ela manda."
+      },
+      "front-3": {
+        "subject": "Novo ticket: LD-103",
+        "body": "Escolher um autor pelo teclado envia o formulário New book inteiro antes de ele estar preenchido.\n\nObserve o que o Enter faz nesse campo."
+      },
+      "front-4": {
+        "subject": "Novo ticket: LD-104",
+        "body": "O acervo ordenado por título arquiva \"The Giver\" no T. Todo catálogo de biblioteca arquiva no G.\n\nA regra já está em algum lugar do código."
+      },
+      "front-5": {
+        "subject": "Novo ticket: LD-105",
+        "body": "Ir de um leitor para um colega de turma mostra o nome novo com os livros do leitor anterior.\n\nObserve quais requisições a página faz quando o leitor muda."
+      },
+      "front-6": {
+        "subject": "Novo ticket: LD-106",
+        "body": "Toda situação no balcão aparece como uma palavra crua da API. As telas já chamam um componente de etiqueta que nunca foi construído.\n\nO ticket tem os textos e as cores."
+      },
+      "front-7": {
+        "subject": "Novo ticket: LD-107",
+        "body": "A tabela de empréstimos não cabe num celular: a página rola para o lado e os botões ficam fora da tela.\n\nA marcação está pronta para algo que o CSS nunca fez."
+      },
+      "front-8": {
+        "subject": "Novo ticket: LD-108",
+        "body": "A reserva ficou pela metade: o formulário só aparece para livros com exemplar na estante, que é o caso em que ninguém precisa de fila.\n\nTermine a outra metade."
+      }
+    },
+    "completion": {
+      "subject": "LibraryDesk: projeto concluído!",
+      "body": "Você concluiu a trilha {{track}} inteira do LibraryDesk, então este projeto está pronto do seu lado. A Rachel diz que a fila do balcão andou mais rápido nesta semana do que no ano todo, e o Daniel e o Marcus também agradecem.\n\nVocê pode continuar com as outras trilhas do LibraryDesk quando quiser. Projetos novos também estão a caminho.\n\nObrigada pelo esforço.\n\nRafaela"
+    },
+    "trackCompletion": {
+      "subject": "A trilha {{track}} está concluída!",
+      "body": "Você fechou todos os tickets {{track}} do LibraryDesk. A Rachel percebeu: acabaram os bilhetes de papel colados no balcão.\n\nObrigada pelo esforço.\n\nRafaela"
+    }
+  }
+}

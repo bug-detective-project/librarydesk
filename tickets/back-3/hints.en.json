@@ -1,0 +1,7 @@
+{
+  "hints": [
+    "The client sends the text as it is (`/api/books?q=steinbeck`), so the filter is in the API. Read `findBooks` in `server/src/library.ts`: what does the `where` compare the text with?",
+    "The `where` has only `{ title: { [Op.like]: … } }`. The author is not a column of `books`: it is a row of `authors`, joined by the `include` of `bookIncludes` (`as: 'author'`). Sequelize lets a top-level `where` reach a column of an included model with the `'$alias.column$'` syntax.",
+    "Use `Op.or` with both conditions: `{ [Op.or]: [{ title: { [Op.like]: likeText(text) } }, { '$author.name$': { [Op.like]: likeText(text) } }] }`. MySQL's default collation compares without case, so \"LOWRY\" finds Lois Lowry too. A book has one author, so the join does not repeat books."
+  ]
+}

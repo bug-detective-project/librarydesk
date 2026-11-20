@@ -1,0 +1,7 @@
+{
+  "hints": [
+    "One fine gives the right total and two give NaN: something goes wrong only when two amounts are added. The total is `finesDue(...)` in `client/src/format.ts`, called by `client/src/pages/ReaderPage.tsx`.",
+    "Marcus says the API sends `\"fine\": \"1.00\"`, a string. But `Loan` in `client/src/api/types.ts` says `fine: number`, so `total + loan.fine` looks like a sum to TypeScript. In JavaScript, `0 + \"1.00\"` is the string `\"01.00\"`, and `\"01.00\" + \"0.75\"` is `\"01.000.75\"`: not a number. With one fine, `\"01.00\"` still reads as 1.",
+    "Make the type say the truth, `fine: string` (dollars as decimal text), and turn each fine into a number before adding: `total + Number(loan.fine)`. TypeScript then shows you every other place that relies on `fine` being a number."
+  ]
+}

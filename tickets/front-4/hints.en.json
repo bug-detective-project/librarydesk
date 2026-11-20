@@ -1,0 +1,7 @@
+{
+  "hints": [
+    "The order is decided in the client: `sortBooks` in `client/src/collection.ts`. Daniel noticed that the covers already file The Giver under G; look at what the covers use (`client/src/components/BookCover.tsx`) and what `sortBooks` uses.",
+    "`collection.ts` has `filingTitle(title)`, which takes a leading \"The\", \"A\" or \"An\" (followed by a space) off a title. The covers use it, the author and newest orders use it to break ties, and the **title** order compares `a.title` with `b.title` as they are.",
+    "Compare the filing titles: `collator.compare(filingTitle(a.title), filingTitle(b.title))`. The regular expression of `filingTitle` already requires a space after the article, so \"Theo\" and \"Anatomy\" stay as they are, and the card still shows the full title."
+  ]
+}

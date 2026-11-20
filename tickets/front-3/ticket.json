@@ -1,0 +1,13 @@
+{
+  "type": "fix",
+  "skills": {
+    "en": [
+      "Web platform: DOM and events",
+      "Forms and validation"
+    ],
+    "pt": [
+      "Plataforma web: DOM e eventos",
+      "Formulários e validação"
+    ]
+  }
+}

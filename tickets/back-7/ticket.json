@@ -1,0 +1,11 @@
+{
+  "type": "fix",
+  "skills": {
+    "en": [
+      "Error handling and resilience"
+    ],
+    "pt": [
+      "Erros e resiliência"
+    ]
+  }
+}

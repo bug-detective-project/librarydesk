@@ -1,0 +1,61 @@
+diff --git a/server/src/library.ts b/server/src/library.ts
+index 923036e..277459b 100644
+--- a/server/src/library.ts
++++ b/server/src/library.ts
+@@ -6,7 +6,7 @@ import { Op } from 'sequelize';
+ import type { Includeable } from 'sequelize';
+ import { addDays, now, today } from './clock.ts';
+ import { ConflictError, InvalidError, NotFoundError } from './errors.ts';
+-import { LOAN_DAYS, MAX_RENEWALS, dollars, fineFor } from './fines.ts';
++import { LOAN_DAYS, dollars, fineFor } from './fines.ts';
+ import { parseIsbn } from './isbn.ts';
+ import { Author, Book, Copy, Loan, Reader, Reservation } from './models.ts';
+ import { bookDetails, bookSummary, loanView, readerSummary } from './views.ts';
+@@ -232,26 +232,6 @@ export async function returnLoan(id: unknown) {
+   return loanView(await loadLoan(loan.id));
+ }
+ 
+-export async function renew(id: unknown) {
+-  const loan = await loadLoan(idOf(id, 'The loan'));
+-  if (loan.returnedAt) {
+-    throw new ConflictError('This copy is already back');
+-  }
+-  const day = today();
+-  if (loan.dueOn < day) {
+-    throw new ConflictError('The loan is overdue: return the copy first');
+-  }
+-  if (loan.renewals >= MAX_RENEWALS) {
+-    throw new ConflictError(`A loan is renewed at most ${MAX_RENEWALS} times`);
+-  }
+-  const waiting = await Reservation.count({ where: { bookId: loan.copy!.bookId, fulfilledAt: null } });
+-  if (waiting > 0) {
+-    throw new ConflictError('Another reader is waiting for this book');
+-  }
+-  await loan.update({ dueOn: addDays(day, LOAN_DAYS), renewals: loan.renewals + 1 });
+-  return loanView(await loadLoan(loan.id));
+-}
+-
+ // Reservations
+ 
+ export async function reserve(bookId: unknown, input: { readerId?: unknown }) {
+diff --git a/server/src/routes/loans.ts b/server/src/routes/loans.ts
+index 7ba58fd..386f775 100644
+--- a/server/src/routes/loans.ts
++++ b/server/src/routes/loans.ts
+@@ -1,5 +1,5 @@
+ import { Router } from 'express';
+-import { findLoans, lend, renew, returnLoan } from '../library.ts';
++import { findLoans, lend, returnLoan } from '../library.ts';
+ 
+ export function loanRoutes(): Router {
+   const router = Router();
+@@ -16,9 +16,5 @@ export function loanRoutes(): Router {
+     res.json(await returnLoan(req.params.id));
+   });
+ 
+-  router.post('/loans/:id/renew', async (req, res) => {
+-    res.json(await renew(req.params.id));
+-  });
+-
+   return router;
+ }

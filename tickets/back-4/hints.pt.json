@@ -1,0 +1,7 @@
+{
+  "hints": [
+    "Só dígitos passam e os mesmos dígitos com traços não, então a checagem vê o texto antes de alguém tirar os traços. Siga o `createBook` em `server/src/library.ts` até o `parseIsbn` em `server/src/isbn.ts`.",
+    "O `parseIsbn` chama `isValidIsbn(typed)` e só depois `normalizeIsbn(typed)`. O `isValidIsbn` começa com `/^\\d{13}$/`: \"978-0-306-40615-7\" tem 17 caracteres e quatro deles são traços, então falha ali mesmo, antes de o dígito verificador ser olhado.",
+    "Normalize primeiro e valide o resultado: `const digits = normalizeIsbn(typed); return isValidIsbn(digits) ? digits : null;`. O `normalizeIsbn` já tira traços e espaços, e o livro guarda `digits`."
+  ]
+}

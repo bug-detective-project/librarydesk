@@ -1,0 +1,7 @@
+{
+  "hints": [
+    "Daniel is right: overdue is a part of on loan, so it must have every condition of on loan plus one. The two tabs call the same endpoint with `status=active` and `status=overdue`; read `findLoans` in `server/src/library.ts`.",
+    "For `active` the `where` is `{ returnedAt: null }`. For `overdue` it is `{ dueOn: { [Op.lt]: today() } }`: a due day in the past, and nothing about whether the copy came back. Every returned loan has a due day in the past too.",
+    "Keep the condition of `active` and add the date: `{ dueOn: { [Op.lt]: today() }, returnedAt: null }`. Two keys in one Sequelize `where` object are joined with AND."
+  ]
+}

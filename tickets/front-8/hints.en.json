@@ -1,0 +1,7 @@
+{
+  "hints": [
+    "Two things keep the queue out: where the form is shown, and what it does with the answer. Look for the condition around `<ReserveForm>` in `client/src/pages/BookPage.tsx`, and for the `TODO (LD-108)` in `client/src/components/ReserveForm.tsx`.",
+    "The page renders the form only when `book.available > 0`, which is exactly the case where nobody needs a queue. In the form, the answer of `reserveBook` is not even kept: the toast always says \"put aside\". The API's answer has `ready` and `position`, which tell the two cases apart.",
+    "Render `<ReserveForm>` for every book, and keep the answer: `const result = await reserveBook(book.id, reader.id);`. Then `if (result.ready)` the \"put aside\" toast, else `` toast.success(`${reader.name} is number ${result.position} in the queue for ${book.title}`) ``. `onReserved()` already reloads the book, so the queue updates."
+  ]
+}

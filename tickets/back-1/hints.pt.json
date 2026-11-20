@@ -1,0 +1,7 @@
+{
+  "hints": [
+    "A multa vem sempre um dia a mais, em dia ou não. A API calcula quando o exemplar volta: comece no `returnLoan` de `server/src/library.ts` e siga o `fineFor` até `server/src/fines.ts`.",
+    "O `lateDays` compara o momento da devolução com `new Date(dueOn)`. Um prazo é um dia, `'2026-03-09'`; `new Date('2026-03-09')` é a meia-noite desse dia **em UTC**, que em Nova York são 20h (19h no inverno) do dia **anterior**. Qualquer devolução no último dia vem depois desse momento, e o `Math.ceil` transforma as poucas horas num dia inteiro.",
+    "Conte dias, não milissegundos: pegue o dia da devolução no fuso da escola e conte os dias do prazo até ele. O `server/src/clock.ts` já tem as duas coisas: `libraryDate(moment)` e `daysBetween(from, to)`. `Math.max(0, daysBetween(dueOn, libraryDate(returnedAt)))` dá 0 no último dia e 1 no dia seguinte."
+  ]
+}

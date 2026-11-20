@@ -1,0 +1,7 @@
+{
+  "hints": [
+    "A ordem é decidida no cliente: `sortBooks` em `client/src/collection.ts`. O Daniel percebeu que as capas já arquivam The Giver no G; veja o que as capas usam (`client/src/components/BookCover.tsx`) e o que o `sortBooks` usa.",
+    "O `collection.ts` tem `filingTitle(title)`, que tira de um título um \"The\", \"A\" ou \"An\" do começo (seguido de espaço). As capas usam, as ordens por autor e por mais novos usam para desempatar, e a ordem por **título** compara `a.title` com `b.title` como estão.",
+    "Compare os títulos de arquivamento: `collator.compare(filingTitle(a.title), filingTitle(b.title))`. A expressão regular do `filingTitle` já exige espaço depois do artigo, então \"Theo\" e \"Anatomy\" ficam como estão, e o cartão continua mostrando o título inteiro."
+  ]
+}

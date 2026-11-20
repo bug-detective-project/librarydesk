@@ -1,0 +1,7 @@
+{
+  "hints": [
+    "A observação da Rachel é a chave: um exemplar que nunca foi emprestado é recusado na segunda vez; um que já saiu uma vez, não. Leia a checagem antes do `Loan.create` no `lend`, em `server/src/library.ts`.",
+    "A checagem procura um empréstimo do exemplar com `findOne({ where: { copyId }, order: [['id', 'ASC']] })` e só recusa quando esse empréstimo não tem `returnedAt`. Com `id` crescente, o `findOne` dá o empréstimo **mais antigo** que o exemplar já teve. Para o B001-1 é o empréstimo da Emma, que voltou; o do Liam, o que está aberto, nunca é olhado.",
+    "A pergunta não é \"qual foi o último empréstimo deste exemplar\", e sim \"existe um empréstimo deste exemplar que não voltou\". Pergunte exatamente isso: `Loan.findOne({ where: { copyId: copy.id, returnedAt: null } })`. Para `null`, o Sequelize escreve `returned_at IS NULL`."
+  ]
+}

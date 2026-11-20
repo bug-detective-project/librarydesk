@@ -1,0 +1,7 @@
+{
+  "hints": [
+    "The markup is ready for cards: every cell of `client/src/components/LoanTable.tsx` has a `data-label`. What is missing is in `client/src/components/LoanTable.module.css`: read what the table does at any width, and look for a rule for narrow screens.",
+    "`.table td` has `white-space: nowrap`, so no cell ever wraps, and there is no rule at all for a narrow width: six columns of text that cannot wrap are wider than a phone. The table is used on pages of different widths (beside the menu, inside a reader page), so the width that matters is the table's own space, not the window's: that is what a container query measures.",
+    "Wrap the table in an element with `container-type: inline-size` (`LoanTable.tsx` can render a `div` around it), and add `@container (max-width: 699px) { … }` with `display: block` for the table, its rows and cells, `display: none` for `thead`, each cell as a flex row with `content: attr(data-label)` in `td::before`. Take `white-space: nowrap` off the cells, keeping it only where a value must stay on one line (a date, an amount)."
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "hints": [
+    "Uma multa dá o total certo e duas dão NaN: algo só dá errado quando dois valores são somados. O total é o `finesDue(...)` em `client/src/format.ts`, chamado pela `client/src/pages/ReaderPage.tsx`.",
+    "O Marcus diz que a API manda `\"fine\": \"1.00\"`, uma string. Mas o `Loan` em `client/src/api/types.ts` diz `fine: number`, então `total + loan.fine` parece uma soma para o TypeScript. Em JavaScript, `0 + \"1.00\"` é a string `\"01.00\"`, e `\"01.00\" + \"0.75\"` é `\"01.000.75\"`: não é um número. Com uma multa só, `\"01.00\"` ainda é lido como 1.",
+    "Faça o tipo dizer a verdade, `fine: string` (dólares como texto decimal), e transforme cada multa em número antes de somar: `total + Number(loan.fine)`. O TypeScript então mostra todo outro lugar que conta com `fine` ser número."
+  ]
+}

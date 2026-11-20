@@ -1,0 +1,13 @@
+diff --git a/server/src/library.ts b/server/src/library.ts
+index 923036e..c1de1a4 100644
+--- a/server/src/library.ts
++++ b/server/src/library.ts
+@@ -40,7 +40,7 @@ function likeText(q: string): string {
+ 
+ export async function findBooks(q: unknown) {
+   const text = typeof q === 'string' ? q.trim() : '';
+-  const where = text ? { [Op.or]: [{ title: { [Op.like]: likeText(text) } }, { '$author.name$': { [Op.like]: likeText(text) } }] } : {};
++  const where = text ? { title: { [Op.like]: likeText(text) } } : {};
+   const books = await Book.findAll({ where, include: bookIncludes, order: [['id', 'ASC']] });
+   return books.map(bookSummary);
+ }

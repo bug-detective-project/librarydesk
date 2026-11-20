@@ -1,0 +1,50 @@
+diff --git a/client/src/pages/ReaderPage.tsx b/client/src/pages/ReaderPage.tsx
+index 2b424ed..a74f811 100644
+--- a/client/src/pages/ReaderPage.tsx
++++ b/client/src/pages/ReaderPage.tsx
+@@ -15,7 +15,7 @@ export function ReaderPage() {
+   const id = Number(useParams().id);
+   const toast = useToast();
+   const reader = useResource(`reader-${id}`, (signal) => getReader(id, signal));
+-  const loans = useResource('reader-loans', (signal) => getReaderLoans(id, signal));
++  const loans = useResource(`reader-loans-${id}`, (signal) => getReaderLoans(id, signal));
+   const [confirming, setConfirming] = useState(false);
+   const reload = () => {
+     reader.reload();
+diff --git a/client/src/reader-switch.test.tsx b/client/src/reader-switch.test.tsx
+new file mode 100644
+index 0000000..766a6ae
+--- /dev/null
++++ b/client/src/reader-switch.test.tsx
+@@ -0,0 +1,31 @@
++import { screen, within } from '@testing-library/react';
++import userEvent from '@testing-library/user-event';
++import { describe, expect, it } from 'vitest';
++import { mockApi } from './test/mockApi.ts';
++import { renderApp } from './test/renderApp.tsx';
++
++describe('going from one reader to a classmate', () => {
++  it('shows the loans of the classmate, not of the reader before', async () => {
++    mockApi();
++    await renderApp('/readers/1');
++    expect(within(await screen.findByRole('table', { name: 'On loan' })).getByRole('link', { name: 'To Kill a Mockingbird' })).toBeInTheDocument();
++
++    await userEvent.click(within(screen.getByRole('navigation', { name: 'Also in Grade 7' })).getByRole('link', { name: 'Liam Carter' }));
++
++    expect(await screen.findByRole('heading', { name: 'Liam Carter', level: 2 })).toBeInTheDocument();
++    const table = await screen.findByRole('table', { name: 'On loan' });
++    expect(await within(table).findByRole('link', { name: 'Number the Stars' })).toBeInTheDocument();
++    expect(within(table).queryByRole('link', { name: 'To Kill a Mockingbird' })).not.toBeInTheDocument();
++  });
++
++  it('and back again shows the first reader loans once more', async () => {
++    mockApi();
++    await renderApp('/readers/2');
++    await within(await screen.findByRole('table', { name: 'On loan' })).findByRole('link', { name: 'Number the Stars' });
++
++    await userEvent.click(within(screen.getByRole('navigation', { name: 'Also in Grade 7' })).getByRole('link', { name: 'Emma Johnson' }));
++
++    await screen.findByRole('heading', { name: 'Emma Johnson', level: 2 });
++    expect(await within(screen.getByRole('table', { name: 'On loan' })).findByRole('link', { name: 'To Kill a Mockingbird' })).toBeInTheDocument();
++  });
++});

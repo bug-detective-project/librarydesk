@@ -1,0 +1,7 @@
+{
+  "hints": [
+    "Ir de `/readers/1` para `/readers/2` não monta uma página nova: o React Router mantém a mesma `ReaderPage` e só o `id` muda. O Marcus viu que o leitor é carregado de novo e os empréstimos não. Leia como a `client/src/pages/ReaderPage.tsx` carrega cada um.",
+    "Os dois vêm de `useResource(chave, carregar)` (`client/src/useResource.ts`), que só carrega de novo quando a **chave** muda. A chave do leitor é `` `reader-${id}` ``; a dos empréstimos é `'reader-loans'`, o mesmo texto para todo leitor. Quando o id muda, essa chave não muda, então os empréstimos antigos ficam.",
+    "Ponha o id na chave dos empréstimos: `` useResource(`reader-loans-${id}`, (signal) => getReaderLoans(id, signal)) ``. Uma chave nova carrega os empréstimos do leitor novo, e o `useResource` descarta uma resposta atrasada da chave antiga."
+  ]
+}

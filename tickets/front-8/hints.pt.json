@@ -1,0 +1,7 @@
+{
+  "hints": [
+    "Duas coisas deixam a fila de fora: onde o formulário é mostrado, e o que ele faz com a resposta. Procure a condição em volta do `<ReserveForm>` na `client/src/pages/BookPage.tsx`, e o `TODO (LD-108)` no `client/src/components/ReserveForm.tsx`.",
+    "A página só renderiza o formulário quando `book.available > 0`, que é exatamente o caso em que ninguém precisa de fila. No formulário, a resposta do `reserveBook` nem é guardada: o toast sempre diz \"put aside\". A resposta da API tem `ready` e `position`, que distinguem os dois casos.",
+    "Renderize o `<ReserveForm>` em todo livro, e guarde a resposta: `const result = await reserveBook(book.id, reader.id);`. Então `if (result.ready)` o toast de \"put aside\", senão `` toast.success(`${reader.name} is number ${result.position} in the queue for ${book.title}`) ``. O `onReserved()` já recarrega o livro, então a fila se atualiza."
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "hints": [
+    "Everything outside the component is ready: the screens call `<StatusBadge status={…} />` with one of the five values of `Status` (`client/src/api/types.ts`). The work is inside `client/src/components/StatusBadge.tsx`, and a CSS Module next to it, like the other components (`Availability.module.css`, for example).",
+    "Map each status to its label with a `Record<Status, string>`: TypeScript then refuses a status without a label. In the CSS Module, one class for the pill (padding, rounded corners, small bold text) and one class per status named after it (`.available`, `.on_loan`, …) with `background` and `color` from the tokens. `styles[status]` picks the right one.",
+    "Render a `span` with both classes and `data-status={status}`, a dot (`<span aria-hidden=\"true\" />` with `background: currentColor`, so it takes the color of the text) and the label. The soft tokens are the backgrounds and the strong ones the text: `--danger` on `--danger-soft`, `--brand-strong` on `--brand-soft`, and so on."
+  ]
+}

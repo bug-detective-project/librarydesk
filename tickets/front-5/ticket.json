@@ -1,0 +1,13 @@
+{
+  "type": "fix",
+  "skills": {
+    "en": [
+      "Async and state",
+      "Routes and navigation"
+    ],
+    "pt": [
+      "Assincronia e estado",
+      "Criação de rotas e navegação"
+    ]
+  }
+}

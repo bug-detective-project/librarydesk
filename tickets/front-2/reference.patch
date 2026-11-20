@@ -1,0 +1,88 @@
+diff --git a/client/src/api/types.ts b/client/src/api/types.ts
+index b24a0c3..09a382b 100644
+--- a/client/src/api/types.ts
++++ b/client/src/api/types.ts
+@@ -66,8 +66,8 @@ export interface Loan {
+   returnedAt: string | null;
+   renewals: number;
+   status: LoanStatus;
+-  /** Dollars: 0.75. */
+-  fine: number;
++  /** Dollars as decimal text, the way MySQL keeps them: '0.75'. */
++  fine: string;
+   finePaid: boolean;
+ }
+ 
+diff --git a/client/src/format.ts b/client/src/format.ts
+index 989f646..0a8c436 100644
+--- a/client/src/format.ts
++++ b/client/src/format.ts
+@@ -6,8 +6,8 @@ export function formatDollars(amount: number): string {
+ }
+ 
+ /** The fines a reader still owes: those of the loans that came back late and are not paid. */
+-export function finesDue(loans: { returnedAt: string | null; fine: number; finePaid: boolean }[]): number {
+-  return loans.filter((loan) => loan.returnedAt && !loan.finePaid).reduce((total, loan) => total + loan.fine, 0);
++export function finesDue(loans: { returnedAt: string | null; fine: string; finePaid: boolean }[]): number {
++  return loans.filter((loan) => loan.returnedAt && !loan.finePaid).reduce((total, loan) => total + Number(loan.fine), 0);
+ }
+ 
+ const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+diff --git a/client/src/reader-fines.test.tsx b/client/src/reader-fines.test.tsx
+new file mode 100644
+index 0000000..ea099c2
+--- /dev/null
++++ b/client/src/reader-fines.test.tsx
+@@ -0,0 +1,52 @@
++import { screen } from '@testing-library/react';
++import { describe, expect, it } from 'vitest';
++import { finesDue } from './format.ts';
++import { json, mockApi } from './test/mockApi.ts';
++import { renderApp } from './test/renderApp.tsx';
++
++/** Two loans Noah brought back late, with their fines as the API sends them: decimal text. */
++const LATE = [
++  {
++    id: 4,
++    copy: { id: 4, code: 'B002-1' },
++    book: { id: 2, title: 'The Grapes of Wrath' },
++    reader: { id: 3, name: 'Noah Ramirez' },
++    loanedOn: '2026-02-15',
++    dueOn: '2026-03-01',
++    returnedAt: '2026-03-04T15:15:00.000Z',
++    renewals: 0,
++    status: 'returned',
++    fine: '0.75',
++    finePaid: false,
++  },
++  {
++    id: 5,
++    copy: { id: 6, code: 'B003-2' },
++    book: { id: 3, title: 'Number the Stars' },
++    reader: { id: 3, name: 'Noah Ramirez' },
++    loanedOn: '2026-02-16',
++    dueOn: '2026-03-02',
++    returnedAt: '2026-03-06T15:15:00.000Z',
++    renewals: 0,
++    status: 'returned',
++    fine: '1.00',
++    finePaid: false,
++  },
++];
++
++describe('the fines of a reader', () => {
++  it('add up the amounts, whatever form the API sends them in', () => {
++    expect(finesDue(LATE)).toBe(1.75);
++    expect(finesDue([LATE[0]!, { ...LATE[1]!, finePaid: true }])).toBe(0.75);
++  });
++
++  it('show the total of two late books in dollars', async () => {
++    mockApi({ respond: (request) => (request.method === 'GET' && request.path === '/api/readers/3/loans' ? json(LATE) : undefined) });
++    await renderApp('/readers/3');
++
++    const fines = await screen.findByRole('region', { name: 'Fines' });
++    expect(fines).toHaveTextContent('$1.75');
++    expect(fines).not.toHaveTextContent('NaN');
++    expect(screen.getByRole('button', { name: 'Pay fines' })).toBeInTheDocument();
++  });
++});

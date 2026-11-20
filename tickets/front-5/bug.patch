@@ -1,0 +1,13 @@
+diff --git a/client/src/pages/ReaderPage.tsx b/client/src/pages/ReaderPage.tsx
+index a74f811..2b424ed 100644
+--- a/client/src/pages/ReaderPage.tsx
++++ b/client/src/pages/ReaderPage.tsx
+@@ -15,7 +15,7 @@ export function ReaderPage() {
+   const id = Number(useParams().id);
+   const toast = useToast();
+   const reader = useResource(`reader-${id}`, (signal) => getReader(id, signal));
+-  const loans = useResource(`reader-loans-${id}`, (signal) => getReaderLoans(id, signal));
++  const loans = useResource('reader-loans', (signal) => getReaderLoans(id, signal));
+   const [confirming, setConfirming] = useState(false);
+   const reload = () => {
+     reader.reload();

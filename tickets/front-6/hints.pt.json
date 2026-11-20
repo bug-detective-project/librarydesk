@@ -1,0 +1,7 @@
+{
+  "hints": [
+    "Tudo fora do componente está pronto: as telas chamam `<StatusBadge status={…} />` com um dos cinco valores de `Status` (`client/src/api/types.ts`). O trabalho é dentro de `client/src/components/StatusBadge.tsx`, e de um CSS Module ao lado, como os outros componentes (`Availability.module.css`, por exemplo).",
+    "Mapeie cada situação para o seu texto com um `Record<Status, string>`: aí o TypeScript recusa uma situação sem texto. No CSS Module, uma classe para a pílula (espaçamento, cantos arredondados, texto pequeno e em negrito) e uma classe por situação com o nome dela (`.available`, `.on_loan`, …) com `background` e `color` dos tokens. O `styles[status]` escolhe a certa.",
+    "Renderize um `span` com as duas classes e `data-status={status}`, um ponto (`<span aria-hidden=\"true\" />` com `background: currentColor`, para ele pegar a cor do texto) e o texto. Os tokens suaves são os fundos e os fortes, o texto: `--danger` sobre `--danger-soft`, `--brand-strong` sobre `--brand-soft`, e assim por diante."
+  ]
+}

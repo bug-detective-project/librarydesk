@@ -1,0 +1,7 @@
+{
+  "hints": [
+    "O cliente manda o texto como está (`/api/books?q=steinbeck`), então o filtro está na API. Leia o `findBooks` em `server/src/library.ts`: com o que o `where` compara o texto?",
+    "O `where` tem só `{ title: { [Op.like]: … } }`. O autor não é uma coluna de `books`: é uma linha de `authors`, juntada pelo `include` de `bookIncludes` (`as: 'author'`). O Sequelize deixa um `where` do nível de cima alcançar uma coluna de um modelo incluído com a sintaxe `'$alias.coluna$'`.",
+    "Use `Op.or` com as duas condições: `{ [Op.or]: [{ title: { [Op.like]: likeText(text) } }, { '$author.name$': { [Op.like]: likeText(text) } }] }`. A collation padrão do MySQL compara sem diferenciar maiúsculas, então \"LOWRY\" também acha a Lois Lowry. Um livro tem um autor só, então a junção não repete livros."
+  ]
+}

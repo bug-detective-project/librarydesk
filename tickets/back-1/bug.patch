@@ -1,0 +1,20 @@
+diff --git a/server/src/fines.ts b/server/src/fines.ts
+index 94c33a7..0591430 100644
+--- a/server/src/fines.ts
++++ b/server/src/fines.ts
+@@ -1,4 +1,4 @@
+-import { daysBetween, libraryDate } from './clock.ts';
++const DAY_MS = 24 * 60 * 60 * 1000;
+ 
+ /** A loan lasts two weeks; a renewal gives two more weeks from the day it is renewed. */
+ export const LOAN_DAYS = 14;
+@@ -8,7 +8,8 @@ export const FINE_PER_DAY = 0.25;
+ 
+ /** How many days late a book came back: 0 when it came back on or before its due day. */
+ export function lateDays(dueOn: string, returnedAt: Date): number {
+-  return Math.max(0, daysBetween(dueOn, libraryDate(returnedAt)));
++  const late = returnedAt.getTime() - new Date(dueOn).getTime();
++  return Math.max(0, Math.ceil(late / DAY_MS));
+ }
+ 
+ /** The fine of a book that came back at a moment, as the decimal text MySQL keeps ('0.75'). */

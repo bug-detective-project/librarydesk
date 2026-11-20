@@ -1,0 +1,7 @@
+{
+  "hints": [
+    "Depois de um empréstimo a página carrega o livro de novo, e tudo que lê os exemplares novos fica certo: a lista e as barrinhas. Só o número trava, então olhe onde ele é calculado: `client/src/components/Availability.tsx`, que recebe os exemplares como prop.",
+    "As barrinhas são desenhadas a partir de `copies` a cada renderização; o número vem de `useState(() => copies.filter(...).length)`. A função passada ao `useState` só roda na **primeira** renderização: depois disso o React guarda o valor que já tinha, seja qual for o `copies` que o componente receba. O componente continua na tela depois do empréstimo, então nunca reconta.",
+    "Um valor que dá para calcular a partir das props não é estado: calcule durante a renderização, como as barrinhas. `const available = copies.filter((copy) => copy.status === 'available').length;` e tire o `useState` (e o import dele)."
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "hints": [
+    "Start from what exists: `returnLoan` in `server/src/library.ts` is the closest action. It loads the loan with `loadLoan` (which answers 404), refuses a copy that is back with `ConflictError`, updates the row and answers `loanView`. A renewal has the same shape with more checks. The route goes in `server/src/routes/loans.ts`, next to `/loans/:id/return`.",
+    "Check in the order of the table, and only change the row when every check passed. Overdue is `loan.dueOn < today()`: both are `YYYY-MM-DD` texts, which compare correctly as strings. For the queue, count the open reservations of the book: `Reservation.count({ where: { bookId: loan.copy!.bookId, fulfilledAt: null } })` (`loadLoan` includes the copy).",
+    "The update is `loan.update({ dueOn: addDays(today(), LOAN_DAYS), renewals: loan.renewals + 1 })`, then answer `loanView(await loadLoan(loan.id))` so the answer has the book and the reader. Use `MAX_RENEWALS` in the message, and export the function to use it in the route: `router.post('/loans/:id/renew', async (req, res) => { res.json(await renew(req.params.id)); })`."
+  ]
+}

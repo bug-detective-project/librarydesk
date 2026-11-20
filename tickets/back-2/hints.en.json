@@ -1,0 +1,7 @@
+{
+  "hints": [
+    "Rachel's note is the key: a copy that was never lent is refused the second time; one that already went out once is not. Read the check before `Loan.create` in `lend`, in `server/src/library.ts`.",
+    "The check looks for a loan of the copy with `findOne({ where: { copyId }, order: [['id', 'ASC']] })` and refuses only when that loan has no `returnedAt`. With `id` ascending, `findOne` gives the **oldest** loan the copy ever had. For B001-1 that is Emma's loan, which came back; Liam's loan, the open one, is never looked at.",
+    "The question is not \"what was the last loan of this copy\" but \"is there a loan of this copy that has not come back\". Ask exactly that: `Loan.findOne({ where: { copyId: copy.id, returnedAt: null } })`. Sequelize writes `returned_at IS NULL` for `null`."
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "hints": [
+    "Pressing Enter in a text field of a form sends the form: browsers do that by themselves (it is called implicit submission), unless the page stops it. The Author field is `client/src/components/AuthorField.tsx`; read its `keyDown`.",
+    "`keyDown` handles ArrowDown, ArrowUp and Escape, and for the arrows it calls `event.preventDefault()` so the cursor does not jump. The Enter branch picks the author, but does not prevent the default action, so after the handler the browser goes on and submits the form.",
+    "Call `event.preventDefault()` at the start of the Enter branch. Enter then means \"choose\" in this field only; the other fields and the **Add book** button keep sending the form."
+  ]
+}

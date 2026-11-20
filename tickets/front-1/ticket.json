@@ -1,0 +1,13 @@
+{
+  "type": "fix",
+  "skills": {
+    "en": [
+      "Local and derived state",
+      "Async and state"
+    ],
+    "pt": [
+      "Estado local e derivado",
+      "Assincronia e estado"
+    ]
+  }
+}

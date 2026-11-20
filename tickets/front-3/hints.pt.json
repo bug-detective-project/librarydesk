@@ -1,0 +1,7 @@
+{
+  "hints": [
+    "Apertar Enter num campo de texto de um formulário envia o formulário: o navegador faz isso sozinho (o nome é envio implícito), a menos que a página impeça. O campo Author é o `client/src/components/AuthorField.tsx`; leia o `keyDown` dele.",
+    "O `keyDown` trata ArrowDown, ArrowUp e Escape, e nas setas chama `event.preventDefault()` para o cursor não pular. O ramo do Enter escolhe o autor, mas não impede a ação padrão, então depois do tratador o navegador segue e envia o formulário.",
+    "Chame `event.preventDefault()` no começo do ramo do Enter. Aí o Enter significa \"escolher\" só neste campo; os outros campos e o botão **Add book** continuam enviando o formulário."
+  ]
+}

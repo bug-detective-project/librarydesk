@@ -1,0 +1,7 @@
+{
+  "hints": [
+    "Going from `/readers/1` to `/readers/2` does not build a new page: React Router keeps the same `ReaderPage` and only the `id` changes. Marcus saw that the reader is loaded again and the loans are not. Read how `client/src/pages/ReaderPage.tsx` loads each of them.",
+    "Both come from `useResource(key, load)` (`client/src/useResource.ts`), which loads again only when its **key** changes. The reader's key is `` `reader-${id}` ``; the loans' key is `'reader-loans'`, the same text for every reader. When the id changes, that key does not, so the old loans stay.",
+    "Put the id in the key of the loans: `` useResource(`reader-loans-${id}`, (signal) => getReaderLoans(id, signal)) ``. A new key loads the new reader's loans, and `useResource` drops a late answer for the old key."
+  ]
+}

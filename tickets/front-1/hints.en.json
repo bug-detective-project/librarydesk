@@ -1,0 +1,7 @@
+{
+  "hints": [
+    "After a loan, the page loads the book again, and everything that reads the new copies is right: the list and the bars. Only the number is stuck, so look at where it is computed: `client/src/components/Availability.tsx`, which gets the copies as a prop.",
+    "The bars are drawn from `copies` on every render; the number comes from `useState(() => copies.filter(...).length)`. The function given to `useState` runs only on the **first** render: after that, React keeps the value it stored, whatever `copies` the component receives later. The component stays on the screen after the loan, so it never recounts.",
+    "A value that can be worked out from props is not state: compute it during render, like the bars. `const available = copies.filter((copy) => copy.status === 'available').length;` and drop the `useState` (and its import)."
+  ]
+}

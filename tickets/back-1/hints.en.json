@@ -1,0 +1,7 @@
+{
+  "hints": [
+    "The fine is one day too high, always, on time or not. The API works it out when the copy comes back: start at `returnLoan` in `server/src/library.ts` and follow `fineFor` into `server/src/fines.ts`.",
+    "`lateDays` compares the moment of the return with `new Date(dueOn)`. A due date is a day, `'2026-03-09'`; `new Date('2026-03-09')` is midnight of that day **in UTC**, which in New York is 8 p.m. (7 p.m. in winter) of the day **before**. Any return on the due day comes after that moment, and `Math.ceil` turns the few hours into a whole day.",
+    "Count days, not milliseconds: take the day of the return in the school's time zone and count the days from the due day to it. `server/src/clock.ts` already has both: `libraryDate(moment)` and `daysBetween(from, to)`. `Math.max(0, daysBetween(dueOn, libraryDate(returnedAt)))` is 0 on the due day and 1 the day after."
+  ]
+}

@@ -1,0 +1,13 @@
+diff --git a/client/src/components/AuthorField.tsx b/client/src/components/AuthorField.tsx
+index 7f05651..8108b66 100644
+--- a/client/src/components/AuthorField.tsx
++++ b/client/src/components/AuthorField.tsx
+@@ -57,8 +57,6 @@ export function AuthorField({ value, onChange, error }: AuthorFieldProps) {
+     } else if (event.key === 'Escape') {
+       setOpen(false);
+     } else if (event.key === 'Enter') {
+-      // Enter answers the list, not the form: the book is saved only by its button.
+-      event.preventDefault();
+       const chosen = shown[active] ?? shown.find((author) => author.name.toLowerCase() === text.trim().toLowerCase());
+       if (chosen) {
+         pick(chosen);

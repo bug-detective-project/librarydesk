@@ -1,0 +1,142 @@
+diff --git a/server/src/library.ts b/server/src/library.ts
+index 277459b..923036e 100644
+--- a/server/src/library.ts
++++ b/server/src/library.ts
+@@ -6,7 +6,7 @@ import { Op } from 'sequelize';
+ import type { Includeable } from 'sequelize';
+ import { addDays, now, today } from './clock.ts';
+ import { ConflictError, InvalidError, NotFoundError } from './errors.ts';
+-import { LOAN_DAYS, dollars, fineFor } from './fines.ts';
++import { LOAN_DAYS, MAX_RENEWALS, dollars, fineFor } from './fines.ts';
+ import { parseIsbn } from './isbn.ts';
+ import { Author, Book, Copy, Loan, Reader, Reservation } from './models.ts';
+ import { bookDetails, bookSummary, loanView, readerSummary } from './views.ts';
+@@ -232,6 +232,26 @@ export async function returnLoan(id: unknown) {
+   return loanView(await loadLoan(loan.id));
+ }
+ 
++export async function renew(id: unknown) {
++  const loan = await loadLoan(idOf(id, 'The loan'));
++  if (loan.returnedAt) {
++    throw new ConflictError('This copy is already back');
++  }
++  const day = today();
++  if (loan.dueOn < day) {
++    throw new ConflictError('The loan is overdue: return the copy first');
++  }
++  if (loan.renewals >= MAX_RENEWALS) {
++    throw new ConflictError(`A loan is renewed at most ${MAX_RENEWALS} times`);
++  }
++  const waiting = await Reservation.count({ where: { bookId: loan.copy!.bookId, fulfilledAt: null } });
++  if (waiting > 0) {
++    throw new ConflictError('Another reader is waiting for this book');
++  }
++  await loan.update({ dueOn: addDays(day, LOAN_DAYS), renewals: loan.renewals + 1 });
++  return loanView(await loadLoan(loan.id));
++}
++
+ // Reservations
+ 
+ export async function reserve(bookId: unknown, input: { readerId?: unknown }) {
+diff --git a/server/src/loans-renew.test.ts b/server/src/loans-renew.test.ts
+new file mode 100644
+index 0000000..23cb478
+--- /dev/null
++++ b/server/src/loans-renew.test.ts
+@@ -0,0 +1,75 @@
++import { describe, expect, it } from 'vitest';
++import { useApi } from './test/api.ts';
++
++interface LoanView {
++  id: number;
++  book: { title: string };
++  dueOn: string;
++  returnedAt: string | null;
++  renewals: number;
++  status: string;
++}
++
++const api = useApi();
++
++async function openLoan(readerId: number, title: string): Promise<LoanView> {
++  const { body } = await api.get<LoanView[]>(`/api/readers/${readerId}/loans`);
++  return body.find((loan) => loan.book.title === title && !loan.returnedAt)!;
++}
++
++describe('renewing a loan', () => {
++  it('gives two more weeks from today, and counts the renewal', async () => {
++    const loan = await openLoan(1, 'To Kill a Mockingbird');
++
++    const { status, body } = await api.post<LoanView>(`/api/loans/${loan.id}/renew`);
++
++    expect(status).toBe(200);
++    expect(body).toMatchObject({ id: loan.id, dueOn: '2026-03-23', renewals: 1, status: 'on_loan' });
++    expect((await openLoan(1, 'To Kill a Mockingbird')).dueOn).toBe('2026-03-23');
++  });
++
++  it('works twice, and the third time is refused', async () => {
++    const loan = await openLoan(1, 'To Kill a Mockingbird');
++    expect((await api.post(`/api/loans/${loan.id}/renew`)).status).toBe(200);
++    expect((await api.post<LoanView>(`/api/loans/${loan.id}/renew`)).body.renewals).toBe(2);
++
++    const { status, body } = await api.post<{ error: string }>(`/api/loans/${loan.id}/renew`);
++
++    expect(status).toBe(409);
++    expect(body.error).toBeTruthy();
++    expect((await openLoan(1, 'To Kill a Mockingbird')).renewals).toBe(2);
++  });
++
++  it('is refused for a loan renewed twice already', async () => {
++    const loan = await openLoan(6, 'Wonder');
++
++    expect((await api.post(`/api/loans/${loan.id}/renew`)).status).toBe(409);
++    expect((await openLoan(6, 'Wonder')).dueOn).toBe('2026-03-19');
++  });
++
++  it('is refused for an overdue loan', async () => {
++    const loan = await openLoan(2, 'Number the Stars');
++
++    expect((await api.post(`/api/loans/${loan.id}/renew`)).status).toBe(409);
++    expect((await openLoan(2, 'Number the Stars')).dueOn).toBe('2026-03-03');
++  });
++
++  it('is refused when another reader waits for the book', async () => {
++    const loan = await openLoan(7, 'A Wrinkle in Time');
++
++    expect((await api.post(`/api/loans/${loan.id}/renew`)).status).toBe(409);
++    expect((await openLoan(7, 'A Wrinkle in Time')).renewals).toBe(0);
++  });
++
++  it('is refused for a copy that came back', async () => {
++    const loan = await openLoan(1, 'To Kill a Mockingbird');
++    await api.post(`/api/loans/${loan.id}/return`);
++
++    expect((await api.post(`/api/loans/${loan.id}/renew`)).status).toBe(409);
++  });
++
++  it('answers 404 for a loan that does not exist and 400 for an id that is not a number', async () => {
++    expect((await api.post('/api/loans/999/renew')).status).toBe(404);
++    expect((await api.post('/api/loans/abc/renew')).status).toBe(400);
++  });
++});
+diff --git a/server/src/routes/loans.ts b/server/src/routes/loans.ts
+index 386f775..7ba58fd 100644
+--- a/server/src/routes/loans.ts
++++ b/server/src/routes/loans.ts
+@@ -1,5 +1,5 @@
+ import { Router } from 'express';
+-import { findLoans, lend, returnLoan } from '../library.ts';
++import { findLoans, lend, renew, returnLoan } from '../library.ts';
+ 
+ export function loanRoutes(): Router {
+   const router = Router();
+@@ -16,5 +16,9 @@ export function loanRoutes(): Router {
+     res.json(await returnLoan(req.params.id));
+   });
+ 
++  router.post('/loans/:id/renew', async (req, res) => {
++    res.json(await renew(req.params.id));
++  });
++
+   return router;
+ }

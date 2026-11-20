@@ -1,0 +1,14 @@
+diff --git a/server/src/isbn.ts b/server/src/isbn.ts
+index 1085c70..99b8f64 100644
+--- a/server/src/isbn.ts
++++ b/server/src/isbn.ts
+@@ -19,8 +19,7 @@ export function isValidIsbn(digits: string): boolean {
+ 
+ /** The digits of a valid ISBN, or null when the text is not one. */
+ export function parseIsbn(typed: string): string | null {
+-  const digits = normalizeIsbn(typed);
+-  return isValidIsbn(digits) ? digits : null;
++  return isValidIsbn(typed) ? normalizeIsbn(typed) : null;
+ }
+ 
+ /** The groups the desk prints an ISBN in: 978-0-0000-0000-0. */

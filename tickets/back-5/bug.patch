@@ -1,0 +1,13 @@
+diff --git a/server/src/library.ts b/server/src/library.ts
+index 923036e..a81a1aa 100644
+--- a/server/src/library.ts
++++ b/server/src/library.ts
+@@ -182,7 +182,7 @@ export async function findLoans(status: unknown) {
+   if (status !== undefined && status !== 'active' && status !== 'overdue') {
+     throw new InvalidError('status is active or overdue');
+   }
+-  const where = status === 'overdue' ? { dueOn: { [Op.lt]: today() }, returnedAt: null } : { returnedAt: null };
++  const where = status === 'overdue' ? { dueOn: { [Op.lt]: today() } } : { returnedAt: null };
+   const loans = await Loan.findAll({ where, include: loanIncludes, order: [['dueOn', 'ASC'], ['id', 'ASC']] });
+   return loans.map(loanView);
+ }

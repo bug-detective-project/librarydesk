@@ -1,0 +1,7 @@
+{
+  "hints": [
+    "`/api/books/99999` and `/api/readers/99999` both end in a `NotFoundError`, and only one of them kills the process. So the difference is not in `library.ts`: compare how the two routes hand the error on, in `server/src/routes/books.ts` and `server/src/routes/readers.ts`.",
+    "Express 5 catches what an `async` route throws, or a promise the route **returns**, and gives it to the error handler of `app.ts`. The route of one reader is not `async` and does not return its promise: `findReader(...).then((reader) => res.json(reader))`. When `findReader` rejects, nobody is listening: it is an unhandled rejection, and Node ends the process.",
+    "Write the route like its neighbors: `router.get('/readers/:id', async (req, res) => { res.json(await findReader(req.params.id)); })`. Now the rejection reaches Express, the error handler answers the 404 with the `NotFoundError`'s message, and the process stays up."
+  ]
+}

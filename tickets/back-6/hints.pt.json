@@ -1,0 +1,7 @@
+{
+  "hints": [
+    "Comece pelo que existe: o `returnLoan` em `server/src/library.ts` é a ação mais parecida. Ele carrega o empréstimo com `loadLoan` (que responde 404), recusa um exemplar que voltou com `ConflictError`, atualiza a linha e responde `loanView`. Uma renovação tem a mesma forma com mais checagens. A rota vai em `server/src/routes/loans.ts`, ao lado de `/loans/:id/return`.",
+    "Confira na ordem da tabela, e só mude a linha quando todas as checagens passarem. Atrasado é `loan.dueOn < today()`: os dois são textos `YYYY-MM-DD`, que se comparam certo como strings. Para a fila, conte as reservas em aberto do livro: `Reservation.count({ where: { bookId: loan.copy!.bookId, fulfilledAt: null } })` (o `loadLoan` inclui o exemplar).",
+    "A atualização é `loan.update({ dueOn: addDays(today(), LOAN_DAYS), renewals: loan.renewals + 1 })`, e depois responda `loanView(await loadLoan(loan.id))` para a resposta ter o livro e o leitor. Use o `MAX_RENEWALS` na mensagem, e exporte a função para usá-la na rota: `router.post('/loans/:id/renew', async (req, res) => { res.json(await renew(req.params.id)); })`."
+  ]
+}

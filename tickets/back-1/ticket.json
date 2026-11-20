@@ -1,0 +1,13 @@
+{
+  "type": "fix",
+  "skills": {
+    "en": [
+      "Dates, numbers and text",
+      "Business rules and layers"
+    ],
+    "pt": [
+      "Datas, números e texto",
+      "Regras de negócio e camadas"
+    ]
+  }
+}

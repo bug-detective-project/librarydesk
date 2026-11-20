@@ -1,0 +1,30 @@
+diff --git a/client/src/api/types.ts b/client/src/api/types.ts
+index 09a382b..b24a0c3 100644
+--- a/client/src/api/types.ts
++++ b/client/src/api/types.ts
+@@ -66,8 +66,8 @@ export interface Loan {
+   returnedAt: string | null;
+   renewals: number;
+   status: LoanStatus;
+-  /** Dollars as decimal text, the way MySQL keeps them: '0.75'. */
+-  fine: string;
++  /** Dollars: 0.75. */
++  fine: number;
+   finePaid: boolean;
+ }
+ 
+diff --git a/client/src/format.ts b/client/src/format.ts
+index 0a8c436..989f646 100644
+--- a/client/src/format.ts
++++ b/client/src/format.ts
+@@ -6,8 +6,8 @@ export function formatDollars(amount: number): string {
+ }
+ 
+ /** The fines a reader still owes: those of the loans that came back late and are not paid. */
+-export function finesDue(loans: { returnedAt: string | null; fine: string; finePaid: boolean }[]): number {
+-  return loans.filter((loan) => loan.returnedAt && !loan.finePaid).reduce((total, loan) => total + Number(loan.fine), 0);
++export function finesDue(loans: { returnedAt: string | null; fine: number; finePaid: boolean }[]): number {
++  return loans.filter((loan) => loan.returnedAt && !loan.finePaid).reduce((total, loan) => total + loan.fine, 0);
+ }
+ 
+ const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];

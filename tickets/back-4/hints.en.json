@@ -1,0 +1,7 @@
+{
+  "hints": [
+    "Bare digits pass and the same digits with dashes do not, so the check sees the text before anyone takes the dashes out. Follow `createBook` in `server/src/library.ts` to `parseIsbn` in `server/src/isbn.ts`.",
+    "`parseIsbn` calls `isValidIsbn(typed)` and only then `normalizeIsbn(typed)`. `isValidIsbn` starts with `/^\\d{13}$/`: \"978-0-306-40615-7\" has 17 characters and four of them are dashes, so it fails right there, before the check digit is even looked at.",
+    "Normalize first, then validate the result: `const digits = normalizeIsbn(typed); return isValidIsbn(digits) ? digits : null;`. `normalizeIsbn` already removes dashes and spaces, and the book keeps `digits`."
+  ]
+}

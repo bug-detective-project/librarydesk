@@ -1,0 +1,15 @@
+diff --git a/server/src/routes/readers.ts b/server/src/routes/readers.ts
+index 8178e64..bc604d6 100644
+--- a/server/src/routes/readers.ts
++++ b/server/src/routes/readers.ts
+@@ -8,8 +8,8 @@ export function readerRoutes(): Router {
+     res.json(await findReaders(req.query.q));
+   });
+ 
+-  router.get('/readers/:id', async (req, res) => {
+-    res.json(await findReader(req.params.id));
++  router.get('/readers/:id', (req, res) => {
++    findReader(req.params.id).then((reader) => res.json(reader));
+   });
+ 
+   router.get('/readers/:id/loans', async (req, res) => {
