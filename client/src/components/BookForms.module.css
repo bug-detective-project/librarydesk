@@ -1,0 +1,11 @@
+/* The forms of the desk panel: one field under the other, the button the width of the panel. */
+.form {
+  display: grid;
+  gap: 12px;
+}
+
+.form > button {
+  justify-content: center;
+  width: 100%;
+  height: 40px;
+}
