@@ -41,10 +41,11 @@ so the due dates and the fines are always the same; the QA sets the day to Monda
 ## Looking at the data
 
 ```sh
-mysql "$DATABASE_URL"
+mysql -u root -p librarydesk   # the password is librarydesk
 ```
 
-In VS Code, the SQLTools extension and its MySQL driver (recommended by this project) connect to
+The client finds the server through `MYSQL_HOST` and `MYSQL_TCP_PORT`, which Bug Detective sets
+next to `DATABASE_URL`. In VS Code, the SQLTools extension and its MySQL driver (recommended by this project) connect to
 the same address.
 
 ## How it is organized

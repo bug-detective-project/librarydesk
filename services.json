@@ -7,7 +7,9 @@
       "MYSQL_DATABASE": "librarydesk"
     },
     "variables": {
-      "DATABASE_URL": "mysql://root:librarydesk@{{host}}:{{port}}/librarydesk"
+      "DATABASE_URL": "mysql://root:librarydesk@{{host}}:{{port}}/librarydesk",
+      "MYSQL_HOST": "{{host}}",
+      "MYSQL_TCP_PORT": "{{port}}"
     }
   }
 }
