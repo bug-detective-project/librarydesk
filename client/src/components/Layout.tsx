@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router';
+import { getLoans } from '../api/loans.ts';
+import { useResource } from '../useResource.ts';
+import { useToday } from '../useToday.ts';
 import { Icon } from './Icon.tsx';
 import styles from './Layout.module.css';
 
@@ -7,6 +10,9 @@ export function Layout() {
   // On a narrow window the screens hide behind a menu button; a wide one always shows them.
   const [menuOpen, setMenuOpen] = useState(false);
   const { pathname, search } = useLocation();
+  const today = useToday();
+  // The overdue count is read again on every change of screen, so a return shows up when the librarian moves on.
+  const { data: overdue } = useResource(`overdue-${pathname}`, (signal) => getLoans('overdue', signal));
   const headerRef = useRef<HTMLElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -78,13 +84,21 @@ export function Layout() {
           <NavLink to="/loans">
             <Icon name="lend" />
             Loans
+            {overdue && overdue.length > 0 && (
+              <span className={styles.count} aria-label={`${overdue.length} overdue`}>
+                {overdue.length}
+              </span>
+            )}
           </NavLink>
         </nav>
         <p className={styles.desk}>
           <span aria-hidden="true" className={styles.avatar}>
             LD
           </span>
-          Library desk
+          <span>
+            Library desk
+            <span className={styles.today}>{longDay(today)}</span>
+          </span>
         </p>
       </header>
       <main className={styles.main}>
@@ -92,4 +106,13 @@ export function Layout() {
       </main>
     </div>
   );
+}
+
+const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+/** The library's day in words: Monday, March 9. */
+function longDay(day: string): string {
+  const date = new Date(`${day}T00:00:00Z`);
+  return `${WEEKDAYS[date.getUTCDay()]}, ${MONTHS[date.getUTCMonth()]} ${date.getUTCDate()}`;
 }

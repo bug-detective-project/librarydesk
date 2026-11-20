@@ -47,6 +47,7 @@ export interface ReaderSummary {
   group: string;
   card: string;
   openLoans: number;
+  overdueLoans: number;
   hasFines: boolean;
 }
 

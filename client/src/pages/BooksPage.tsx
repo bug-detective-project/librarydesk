@@ -1,22 +1,25 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { getBooks } from '../api/books.ts';
+import { getLoans } from '../api/loans.ts';
 import { SORTS, sortBooks } from '../collection.ts';
 import type { SortKey } from '../collection.ts';
+import { BookCover } from '../components/BookCover.tsx';
 import { Icon } from '../components/Icon.tsx';
 import { StatusBadge } from '../components/StatusBadge.tsx';
 import ui from '../components/ui.module.css';
 import { useResource } from '../useResource.ts';
 import styles from './BooksPage.module.css';
 
-/** The color of a book's spine on its card, always the same for the same book. */
-const SPINES = ['#1f6b5c', '#8a5300', '#6b3f7a', '#2f5d8a', '#a23b3b', '#4f6b2a'];
-
 export function BooksPage() {
   const [q, setQ] = useState('');
   const [sort, setSort] = useState<SortKey>('title');
   const { data: books, error } = useResource(`books?q=${q.trim()}`, (signal) => getBooks(q.trim(), signal));
   const shown = books ? sortBooks(books, sort) : null;
+  const { data: everything } = useResource('books-all', (signal) => getBooks('', signal));
+  const { data: overdue } = useResource('loans-overdue', (signal) => getLoans('overdue', signal));
+  const copies = everything?.reduce((total, book) => total + book.copies, 0) ?? 0;
+  const out = everything?.reduce((total, book) => total + book.copies - book.available, 0) ?? 0;
 
   return (
     <section>
@@ -30,6 +33,27 @@ export function BooksPage() {
           New book
         </Link>
       </div>
+
+      {everything && (
+        <dl className={styles.stats} aria-label="The library today">
+          <div>
+            <dt>Titles</dt>
+            <dd>{everything.length}</dd>
+          </div>
+          <div>
+            <dt>Copies</dt>
+            <dd>{copies}</dd>
+          </div>
+          <div>
+            <dt>On loan</dt>
+            <dd>{out}</dd>
+          </div>
+          <div className={overdue && overdue.length > 0 ? styles.late : undefined}>
+            <dt>Overdue</dt>
+            <dd>{overdue?.length ?? '–'}</dd>
+          </div>
+        </dl>
+      )}
 
       <div className={styles.tools}>
         <label className={styles.search}>
@@ -55,7 +79,7 @@ export function BooksPage() {
         <ul className={styles.grid} aria-label="Books">
           {shown.map((book) => (
             <li key={book.id} className={styles.card} data-testid={`book-${book.id}`}>
-              <span aria-hidden="true" className={styles.spine} style={{ background: SPINES[book.id % SPINES.length] }} />
+              <BookCover id={book.id} title={book.title} author={book.author.name} />
               <div className={styles.body}>
                 <h3 className={styles.title}>
                   <Link to={`/books/${book.id}`}>{book.title}</Link>

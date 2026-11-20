@@ -29,3 +29,15 @@ export function initials(name: string): string {
   const words = name.split(/\s+/).filter(Boolean);
   return `${words[0]?.[0] ?? ''}${words.length > 1 ? words.at(-1)![0] : ''}`.toUpperCase();
 }
+
+/** How a due date reads next to today: 'Due today', 'Due in 4 days', '6 days late'. */
+export function dueText(dueOn: string, today: string): string {
+  const days = Math.round((Date.parse(`${dueOn}T00:00:00Z`) - Date.parse(`${today}T00:00:00Z`)) / 86_400_000);
+  if (days === 0) {
+    return 'Due today';
+  }
+  if (days > 0) {
+    return days === 1 ? 'Due tomorrow' : `Due in ${days} days`;
+  }
+  return days === -1 ? '1 day late' : `${-days} days late`;
+}

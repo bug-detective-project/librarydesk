@@ -112,6 +112,7 @@ export function readerSummary(reader: Reader) {
     group: reader.group,
     card: reader.card,
     openLoans: loans.filter((loan) => !loan.returnedAt).length,
+    overdueLoans: loans.filter((loan) => !loan.returnedAt && loan.dueOn < today()).length,
     hasFines: loans.some((loan) => loan.returnedAt && Number(loan.fine) > 0 && !loan.finePaid),
   };
 }

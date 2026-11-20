@@ -11,8 +11,10 @@ describe('readers', () => {
 
     const ana = await screen.findByTestId('reader-1');
     expect(within(ana).getByRole('link', { name: 'Ana Souza' })).toHaveAttribute('href', '/readers/1');
-    expect(ana).toHaveTextContent('Class 7B · R-0001');
-    expect(ana).toHaveTextContent('1 book');
+    expect(ana).toHaveTextContent('Class 7B');
+    expect(ana).toHaveTextContent('R-0001');
+    expect(ana).toHaveTextContent('Out1 book');
+    expect(screen.getByTestId('reader-2')).toHaveTextContent('Overdue1');
     expect(screen.getByTestId('reader-3')).toHaveTextContent('Fines due');
     expect(ana).not.toHaveTextContent('Fines due');
   });
@@ -25,6 +27,18 @@ describe('readers', () => {
     await userEvent.type(screen.getByRole('searchbox', { name: 'Search readers' }), 'helena');
 
     await waitFor(() => expect(screen.queryByTestId('reader-1')).not.toBeInTheDocument());
+    expect(screen.getByTestId('reader-4')).toBeInTheDocument();
+  });
+
+  it('are filtered by class', async () => {
+    mockApi();
+    await renderApp('/readers');
+    await screen.findByTestId('reader-1');
+
+    await userEvent.click(screen.getByRole('button', { name: 'Teachers' }));
+
+    expect(screen.getByRole('button', { name: 'Teachers' })).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.queryByTestId('reader-1')).not.toBeInTheDocument();
     expect(screen.getByTestId('reader-4')).toBeInTheDocument();
   });
 });

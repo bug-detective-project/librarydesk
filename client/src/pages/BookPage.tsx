@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router';
 import { getBook } from '../api/books.ts';
 import { getReaders } from '../api/readers.ts';
 import { Availability } from '../components/Availability.tsx';
+import { BookCover } from '../components/BookCover.tsx';
 import { Icon } from '../components/Icon.tsx';
 import { LendForm } from '../components/LendForm.tsx';
 import { ReserveForm } from '../components/ReserveForm.tsx';
@@ -29,15 +30,25 @@ export function BookPage() {
         Collection
       </Link>
       <header className={styles.header}>
+        <BookCover id={book.id} title={book.title} author={book.author.name} size="large" />
         <div className={styles.heading}>
+          <StatusBadge status={book.status} />
           <h2>{book.title}</h2>
           <p className={styles.author}>{book.author.name}</p>
-          <p className={ui.muted}>
-            Published in {book.year} · ISBN {book.isbn}
-          </p>
-        </div>
-        <div className={styles.status}>
-          <StatusBadge status={book.status} />
+          <dl className={styles.facts}>
+            <div>
+              <dt>Published</dt>
+              <dd>{book.year}</dd>
+            </div>
+            <div>
+              <dt>ISBN</dt>
+              <dd>{book.isbn}</dd>
+            </div>
+            <div>
+              <dt>Copies</dt>
+              <dd>{book.copies}</dd>
+            </div>
+          </dl>
           <Availability copies={book.copyList} />
         </div>
       </header>

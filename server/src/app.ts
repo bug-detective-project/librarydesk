@@ -1,6 +1,7 @@
 import express from 'express';
 import type { ErrorRequestHandler, RequestHandler } from 'express';
 import Sequelize from 'sequelize';
+import { today } from './clock.ts';
 import { HttpError } from './errors.ts';
 import { bookRoutes } from './routes/books.ts';
 import { loanRoutes } from './routes/loans.ts';
@@ -12,6 +13,10 @@ export function createApp(options: { log?: (line: string) => void } = {}): expre
   app.use(allowedHost);
   app.use(express.json({ limit: '100kb' }));
 
+  // The day of the library: the screens count due dates from it, so they agree with the server.
+  app.get('/api/today', (_req, res) => {
+    res.json({ today: today() });
+  });
   app.use('/api', bookRoutes());
   app.use('/api', readerRoutes());
   app.use('/api', loanRoutes());

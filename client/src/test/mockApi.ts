@@ -142,7 +142,7 @@ export function mockApi(options: { respond?: (request: MockRequest) => Response 
 
   function readerSummary(one: (typeof READERS)[number]): ReaderSummary {
     const own = loans.filter((loan) => loan.readerId === one.id);
-    return { ...one, openLoans: own.filter((loan) => !loan.returnedAt).length, hasFines: own.some((loan) => loan.returnedAt && Number(loan.fine) > 0 && !loan.finePaid) };
+    return { ...one, openLoans: own.filter((loan) => !loan.returnedAt).length, overdueLoans: own.filter((loan) => !loan.returnedAt && loan.dueOn < TODAY).length, hasFines: own.some((loan) => loan.returnedAt && Number(loan.fine) > 0 && !loan.finePaid) };
   }
 
   function readerDetails(one: (typeof READERS)[number]): ReaderDetails {
@@ -162,6 +162,8 @@ export function mockApi(options: { respond?: (request: MockRequest) => Response 
     const q = (query.get('q') ?? '').toLowerCase();
 
     switch (route) {
+      case 'GET /api/today':
+        return json({ today: TODAY });
       case 'GET /api/books':
         return json(books.filter((book) => !q || book.title.toLowerCase().includes(q) || bookView(book).author.name.toLowerCase().includes(q)).map(bookView));
       case 'GET /api/books/:id': {

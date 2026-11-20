@@ -9,16 +9,18 @@
 
 .header {
   display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 20px;
+  align-items: flex-start;
+  gap: 28px;
   margin-bottom: 24px;
   padding-bottom: 20px;
   border-bottom: 1px solid var(--line);
 }
 
 .heading {
+  display: grid;
+  flex: 1;
+  justify-items: start;
+  gap: 10px;
   min-width: 0;
 }
 
@@ -28,18 +30,32 @@
 }
 
 .heading p {
-  margin: 4px 0 0;
+  margin: 0;
+}
+
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+  margin: 4px 0 6px;
+}
+
+.facts dt {
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.facts dd {
+  margin: 2px 0 0;
+  font-weight: 600;
 }
 
 .author {
   font-size: 1.0625rem;
   font-weight: 700;
-}
-
-.status {
-  display: grid;
-  justify-items: start;
-  gap: 10px;
 }
 
 .columns {
@@ -127,5 +143,18 @@
 @media (max-width: 767px) {
   .columns {
     grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* On a phone the cover goes above the title, smaller. */
+@media (max-width: 559px) {
+  .header {
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .header > span:first-child {
+    width: 112px;
+    height: 160px;
   }
 }

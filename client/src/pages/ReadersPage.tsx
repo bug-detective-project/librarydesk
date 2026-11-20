@@ -10,7 +10,11 @@ import styles from './ReadersPage.module.css';
 
 export function ReadersPage() {
   const [q, setQ] = useState('');
+  const [group, setGroup] = useState('All');
   const { data: readers, error } = useResource(`readers?q=${q.trim()}`, (signal) => getReaders(q.trim(), signal));
+  // The classes first, in order, and the teachers at the end.
+  const groups = readers ? [...new Set(readers.map((reader) => reader.group))].sort((a, b) => (a === 'Teachers' ? 1 : b === 'Teachers' ? -1 : a.localeCompare(b))) : [];
+  const shown = readers?.filter((reader) => group === 'All' || reader.group === group) ?? null;
 
   return (
     <section>
@@ -27,35 +31,49 @@ export function ReadersPage() {
           <input type="search" placeholder="Name or card number" value={q} onChange={(event) => setQ(event.target.value)} />
         </label>
       </div>
+      {groups.length > 1 && (
+        <div className={styles.filters} role="group" aria-label="Class">
+          {['All', ...groups].map((name) => (
+            <button key={name} type="button" className={styles.filter} aria-pressed={group === name} onClick={() => setGroup(name)}>
+              {name}
+            </button>
+          ))}
+        </div>
+      )}
       {error && <p className={ui.alert}>{error}</p>}
-      {readers && readers.length === 0 && <p className={ui.notice}>No reader matches “{q.trim()}”.</p>}
-      {readers && readers.length > 0 && (
+      {shown && shown.length === 0 && <p className={ui.notice}>No reader matches “{q.trim()}”.</p>}
+      {shown && shown.length > 0 && (
         <ul className={styles.grid} aria-label="Readers">
-          {readers.map((reader) => (
-            <li key={reader.id} className={styles.card} data-testid={`reader-${reader.id}`}>
-              <span aria-hidden="true" className={styles.avatar}>
-                {initials(reader.name)}
-              </span>
-              <div className={styles.body}>
+          {shown.map((reader) => (
+            <li key={reader.id} className={`${styles.card} ${reader.group === 'Teachers' ? styles.teacher : ''}`} data-testid={`reader-${reader.id}`}>
+              <div className={styles.band}>
+                <span>{reader.group}</span>
+                <span className={styles.number}>{reader.card}</span>
+              </div>
+              <div className={styles.who}>
+                <span aria-hidden="true" className={styles.avatar}>
+                  {initials(reader.name)}
+                </span>
                 <h3 className={styles.name}>
                   <Link to={`/readers/${reader.id}`}>{reader.name}</Link>
                 </h3>
-                <p className={styles.meta}>
-                  {reader.group} · {reader.card}
-                </p>
               </div>
-              <div className={styles.tags}>
-                <span className={styles.loans}>
-                  <Icon name="book" size={15} />
-                  {reader.openLoans} {reader.openLoans === 1 ? 'book' : 'books'}
-                </span>
-                {reader.hasFines && (
-                  <span className={styles.fines}>
-                    <Icon name="cash" size={15} />
-                    Fines due
-                  </span>
-                )}
-              </div>
+              <dl className={styles.stats}>
+                <div>
+                  <dt>Out</dt>
+                  <dd>
+                    {reader.openLoans} {reader.openLoans === 1 ? 'book' : 'books'}
+                  </dd>
+                </div>
+                <div>
+                  <dt>Overdue</dt>
+                  <dd className={reader.overdueLoans > 0 ? styles.alert : undefined}>{reader.overdueLoans}</dd>
+                </div>
+                <div>
+                  <dt>Fines</dt>
+                  <dd className={reader.hasFines ? styles.alert : styles.clear}>{reader.hasFines ? 'Fines due' : 'None'}</dd>
+                </div>
+              </dl>
             </li>
           ))}
         </ul>

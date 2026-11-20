@@ -1,6 +1,7 @@
 import { Link } from 'react-router';
 import type { Loan } from '../api/types.ts';
-import { formatDay, formatReais } from '../format.ts';
+import { dueText, formatDay, formatReais, initials } from '../format.ts';
+import { useToday } from '../useToday.ts';
 import { Icon } from './Icon.tsx';
 import styles from './LoanTable.module.css';
 import { StatusBadge } from './StatusBadge.tsx';
@@ -20,6 +21,7 @@ interface LoanTableProps {
 
 /** Loans in rows with their actions; where there is no room for the columns, each row is a card (LoanTable.module.css). */
 export function LoanTable({ loans, label, showReader = true, busyId = null, onReturn, onRenew }: LoanTableProps) {
+  const today = useToday();
   const actions = Boolean(onReturn || onRenew);
   return (
     <div className={styles.wrap}>
@@ -49,12 +51,18 @@ export function LoanTable({ loans, label, showReader = true, busyId = null, onRe
               </td>
               {showReader && (
                 <td data-label="Reader">
-                  <Link to={`/readers/${loan.reader.id}`}>{loan.reader.name}</Link>
+                  <span className={styles.reader}>
+                    <span aria-hidden="true" className={styles.avatar}>
+                      {initials(loan.reader.name)}
+                    </span>
+                    <Link to={`/readers/${loan.reader.id}`}>{loan.reader.name}</Link>
+                  </span>
                 </td>
               )}
               <td data-label="Due">
                 <span>
                   {formatDay(loan.dueOn)}
+                  {loan.status !== 'returned' && <span className={`${styles.code} ${loan.status === 'overdue' ? styles.late : ''}`}>{dueText(loan.dueOn, today)}</span>}
                   {loan.renewals > 0 && <span className={styles.code}>Renewed {loan.renewals}×</span>}
                 </span>
               </td>

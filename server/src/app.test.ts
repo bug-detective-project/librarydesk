@@ -12,6 +12,10 @@ describe('the API', () => {
     expect(response.status).toBe(403);
   });
 
+  it('says which day it is in the library', async () => {
+    expect(await api.get('/api/today')).toEqual({ status: 200, body: { today: '2026-03-09' } });
+  });
+
   it('answers 404 in JSON for a path it does not have', async () => {
     expect(await api.get('/api/shelves')).toEqual({ status: 404, body: { error: 'Not found' } });
   });

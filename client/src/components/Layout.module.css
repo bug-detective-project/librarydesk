@@ -76,6 +76,23 @@
   color: var(--brand-ink);
 }
 
+.count {
+  margin-left: auto;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: #c62828;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.today {
+  display: block;
+  color: var(--rail-ink);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
 .desk {
   display: flex;
   align-items: center;

@@ -7,6 +7,7 @@ interface ReaderSummary {
   group: string;
   card: string;
   openLoans: number;
+  overdueLoans: number;
   hasFines: boolean;
 }
 interface LoanView {
@@ -28,7 +29,8 @@ describe('readers', () => {
 
     expect(status).toBe(200);
     expect(body).toHaveLength(9);
-    expect(body[0]).toEqual({ id: 1, name: 'Ana Souza', group: 'Class 7B', card: 'R-0001', openLoans: 1, hasFines: false });
+    expect(body[0]).toEqual({ id: 1, name: 'Ana Souza', group: 'Class 7B', card: 'R-0001', openLoans: 1, overdueLoans: 0, hasFines: false });
+    expect(body.find((reader) => reader.name === 'Bruno Lima')).toMatchObject({ openLoans: 1, overdueLoans: 1 });
     expect(body.find((reader) => reader.name === 'Davi Rocha')).toMatchObject({ openLoans: 0, hasFines: true });
     expect(body.find((reader) => reader.name === 'Elisa Martins')).toMatchObject({ hasFines: false });
   });
