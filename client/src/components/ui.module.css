@@ -124,6 +124,8 @@
 
 .field input,
 .field select {
+  width: 100%;
+  min-width: 0;
   padding: 9px 12px;
   border: 1px solid var(--line-strong);
   border-radius: var(--radius);

@@ -61,6 +61,7 @@
 
 .reader {
   display: inline-flex;
+  white-space: nowrap;
   align-items: center;
   gap: 9px;
 }
@@ -82,6 +83,12 @@
 .fine {
   color: var(--danger);
   font-weight: 700;
+}
+
+/* A date, a name or an amount reads on one line. */
+.table td[data-label='Due'],
+.table td[data-label='Fine'] {
+  white-space: nowrap;
 }
 
 .actions {

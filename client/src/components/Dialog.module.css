@@ -7,7 +7,7 @@
   align-items: center;
   justify-content: center;
   padding: 16px;
-  background: rgb(22 59 54 / 0.45);
+  background: rgb(12 29 38 / 0.5);
 }
 
 .dialog {
@@ -15,7 +15,7 @@
   padding: 22px 24px;
   border-radius: 16px;
   background: var(--surface);
-  box-shadow: 0 24px 48px -20px rgb(22 59 54 / 0.5);
+  box-shadow: 0 24px 48px -20px rgb(12 29 38 / 0.45);
 }
 
 .head {

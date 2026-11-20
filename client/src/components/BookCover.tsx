@@ -2,12 +2,12 @@ import styles from './BookCover.module.css';
 
 /** Cloth colors of old library bindings; a book always gets the same one. */
 const BINDINGS = [
-  ['#1f5b4f', '#e9dcc0'],
-  ['#7a2e2e', '#f1dfc4'],
-  ['#2c4a6e', '#e6e0cc'],
-  ['#5b3f6e', '#efe2c8'],
-  ['#8a5a14', '#f6ead2'],
-  ['#3d5a2a', '#ece3c9'],
+  ['#155e75', '#e6f4f8'],
+  ['#7f1d1d', '#fbeaea'],
+  ['#1e3a8a', '#e8eefc'],
+  ['#4c1d95', '#efe9fb'],
+  ['#92400e', '#fdf1e2'],
+  ['#334155', '#eef2f6'],
 ] as const;
 
 /** A drawn cover: the binding color, the title in serif and the author at the foot. */

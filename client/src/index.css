@@ -1,34 +1,30 @@
-/* LibraryDesk: the deep green of a library's shelves, warm paper and an amber accent for what is due. */
+/* LibraryDesk: cool neutrals, one petrol blue for the brand, amber for what is due and red for what is late; Inter for every text (bundled, @fontsource-variable/inter). */
 :root {
-  --ink: #1d2a2c;
-  --muted: #5b6a6b;
-  --line: #e2ddd1;
-  --line-strong: #cbc4b4;
+  --ink: #111827;
+  --muted: #5b6472;
+  --line: #e3e6eb;
+  --line-strong: #cdd3db;
   --surface: #ffffff;
-  --page: #f6f3ec;
-  --sunken: #eeeae0;
-  --brand: #1f6b5c;
-  --brand-strong: #17544a;
-  --brand-soft: #e3f0ec;
+  --page: #f4f6f8;
+  --sunken: #eef1f4;
+  --brand: #0e7490;
+  --brand-strong: #155e75;
+  --brand-soft: #e3f3f7;
   --brand-ink: #ffffff;
-  --rail: #163b36;
-  --rail-ink: #e4efe9;
-  --rail-muted: #9fbcb2;
-  --amber: #8a5300;
-  --amber-soft: #fbefd9;
+  --rail: #0c1d26;
+  --rail-ink: #dce7ec;
+  --rail-muted: #8ea3ad;
+  --amber: #a14b06;
+  --amber-soft: #fdf1dc;
   --danger: #b42318;
   --danger-soft: #fdecea;
-  --ok: #17734b;
-  --ok-soft: #e1f4ea;
+  --ok: #15803d;
+  --ok-soft: #e3f6e8;
   --radius: 10px;
-  --shadow: 0 1px 2px rgb(29 42 44 / 0.06), 0 8px 22px -14px rgb(29 42 44 / 0.28);
-  --serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
-  font-family:
-    system-ui,
-    -apple-system,
-    'Segoe UI',
-    Roboto,
-    sans-serif;
+  --shadow: 0 1px 2px rgb(17 24 39 / 0.05), 0 8px 24px -16px rgb(17 24 39 / 0.25);
+  --heading: 'Inter Variable', system-ui, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Inter Variable', system-ui, 'Segoe UI', Roboto, sans-serif;
+  font-feature-settings: 'cv11', 'ss01';
   color: var(--ink);
   background: var(--page);
   -webkit-font-smoothing: antialiased;
@@ -44,7 +40,12 @@ body {
 
 a {
   color: var(--brand);
+  text-decoration: none;
   text-underline-offset: 3px;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 button,
@@ -54,14 +55,16 @@ select {
 }
 
 h2 {
-  font-family: var(--serif);
-  font-size: 1.875rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
+  font-family: var(--heading);
+  font-size: 1.75rem;
+  font-weight: 750;
+  letter-spacing: -0.025em;
 }
 
 h3 {
-  font-family: var(--serif);
+  font-family: var(--heading);
+  font-weight: 650;
+  letter-spacing: -0.01em;
 }
 
 :focus-visible {

@@ -1,16 +1,11 @@
-/* The small forms of the book page: fields side by side, the button at the end of the row. */
+/* The forms of the desk panel: one field under the other, the button the width of the panel. */
 .form {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
+  display: grid;
   gap: 12px;
 }
 
-.form > label {
-  flex: 1 1 180px;
-  min-width: 0;
-}
-
 .form > button {
+  justify-content: center;
+  width: 100%;
   height: 40px;
 }

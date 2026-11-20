@@ -64,17 +64,19 @@ export function BookPage() {
               <li key={copy.id} data-testid={`copy-${copy.code}`}>
                 <span className={styles.code}>{copy.code}</span>
                 <StatusBadge status={copy.status} />
-                {copy.loan && (
+                {copy.loan ? (
                   <span className={styles.holder}>
                     with <Link to={`/readers/${copy.loan.reader.id}`}>{copy.loan.reader.name}</Link> until {formatDay(copy.loan.dueOn)}
                   </span>
+                ) : (
+                  <span className={styles.holder}>On the shelf</span>
                 )}
               </li>
             ))}
           </ul>
         </section>
 
-        <div className={styles.side}>
+        <aside className={styles.side} aria-label="Desk">
           <section className={ui.card} aria-labelledby="lend-title">
             <h3 id="lend-title" className={styles.sectionTitle}>
               <Icon name="lend" />
@@ -103,7 +105,7 @@ export function BookPage() {
             )}
             <ReserveForm book={book} readers={readers ?? []} onReserved={reload} />
           </section>
-        </div>
+        </aside>
       </div>
     </article>
   );

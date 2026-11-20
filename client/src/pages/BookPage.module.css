@@ -50,24 +50,25 @@
 
 .facts dd {
   margin: 2px 0 0;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .author {
   font-size: 1.0625rem;
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .columns {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 340px);
   align-items: start;
-  gap: 16px;
+  gap: 20px;
 }
 
 .side {
   display: grid;
   gap: 16px;
+  min-width: 0;
 }
 
 .sectionTitle {
@@ -87,11 +88,12 @@
 }
 
 .copies li {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 76px auto minmax(0, 1fr);
   align-items: center;
-  gap: 8px 12px;
-  padding: 10px 0;
+  justify-items: start;
+  gap: 8px 16px;
+  padding: 12px 0;
   border-top: 1px solid var(--line);
 }
 
@@ -101,15 +103,15 @@
 }
 
 .code {
-  min-width: 64px;
   font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
   font-weight: 700;
 }
 
 .holder {
-  flex-basis: 100%;
+  justify-self: end;
   color: var(--muted);
   font-size: 0.875rem;
+  text-align: right;
 }
 
 .queue {
@@ -140,9 +142,23 @@
   font-weight: 800;
 }
 
-@media (max-width: 767px) {
+/* Beside the rail of a tablet there is no room for two columns. */
+@media (max-width: 1023px) {
   .columns {
     grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* On a phone the holder goes under the code and the status. */
+@media (max-width: 559px) {
+  .copies li {
+    grid-template-columns: 76px minmax(0, 1fr);
+  }
+
+  .holder {
+    grid-column: 1 / -1;
+    justify-self: start;
+    text-align: left;
   }
 }
 
@@ -154,7 +170,9 @@
   }
 
   .header > span:first-child {
-    width: 112px;
-    height: 160px;
+    width: 120px;
+    height: 172px;
+    padding: 18px 12px 12px 18px;
+    font-size: 0.875rem;
   }
 }

@@ -101,9 +101,9 @@
   width: 46px;
   height: 46px;
   border-radius: 999px;
-  background: var(--rail);
-  color: #f4ead5;
-  font-family: var(--serif);
+  background: var(--brand);
+  color: #ffffff;
+  font-family: var(--heading);
   font-weight: 700;
 }
 
