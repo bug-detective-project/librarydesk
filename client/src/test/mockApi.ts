@@ -45,6 +45,9 @@ const READERS = [
   { id: 4, name: 'Laura Mitchell', group: 'Teachers', card: 'R-0004' },
 ];
 
+/** A loan as the API sends it: the fine is decimal text, the way MySQL gives it back ('0.75'). */
+type ApiLoan = Omit<Loan, 'fine'> & { fine: string };
+
 interface StoredLoan {
   id: number;
   copyId: number;
@@ -121,7 +124,7 @@ export function mockApi(options: { respond?: (request: MockRequest) => Response 
     };
   }
 
-  function loanView(loan: StoredLoan): Loan {
+  function loanView(loan: StoredLoan): ApiLoan {
     const copy = copies.find((one) => one.id === loan.copyId)!;
     const book = books.find((one) => one.id === copy.bookId)!;
     const lateDays = Math.max(0, Math.round((Date.parse(TODAY) - Date.parse(loan.dueOn)) / 86_400_000));
