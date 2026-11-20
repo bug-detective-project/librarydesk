@@ -1,0 +1,74 @@
+.cover {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 3px 6px 6px 3px;
+  box-shadow:
+    inset 4px 0 0 rgb(0 0 0 / 0.18),
+    inset 5px 0 0 rgb(255 255 255 / 0.12),
+    0 6px 14px -8px rgb(17 24 39 / 0.45);
+  font-family: var(--heading);
+}
+
+.small {
+  width: 64px;
+  height: 92px;
+  padding: 10px 7px 7px 11px;
+}
+
+.large {
+  width: 148px;
+  height: 212px;
+  padding: 22px 16px 16px 22px;
+  font-size: 1rem;
+}
+
+.band {
+  position: absolute;
+  top: 14%;
+  right: 0;
+  left: 0;
+  height: 2px;
+  background: currentColor;
+  opacity: 0.45;
+}
+
+.large .band {
+  height: 3px;
+}
+
+.title {
+  display: -webkit-box;
+  margin-top: 18%;
+  overflow: hidden;
+  font-weight: 700;
+  line-height: 1.15;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow-wrap: break-word;
+}
+
+.letter {
+  margin: auto;
+  font-size: 1.875rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.large .title {
+  font-size: 1.125em;
+}
+
+.author {
+  margin-top: auto;
+  overflow: hidden;
+  opacity: 0.85;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.large .author {
+  font-size: 0.8125rem;
+}
