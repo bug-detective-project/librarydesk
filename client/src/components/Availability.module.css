@@ -1,0 +1,35 @@
+.meter {
+  display: grid;
+  gap: 8px;
+}
+
+.count {
+  margin: 0;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.count strong {
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 1.5rem;
+}
+
+.bar {
+  display: flex;
+  gap: 4px;
+}
+
+.bar span {
+  width: 14px;
+  height: 22px;
+  border-radius: 3px;
+}
+
+.in {
+  background: var(--brand);
+}
+
+.out {
+  background: var(--line-strong);
+}

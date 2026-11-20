@@ -1,0 +1,16 @@
+/* The small forms of the book page: fields side by side, the button at the end of the row. */
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.form > label {
+  flex: 1 1 180px;
+  min-width: 0;
+}
+
+.form > button {
+  height: 40px;
+}

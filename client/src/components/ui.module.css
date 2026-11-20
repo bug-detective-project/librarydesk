@@ -1,0 +1,164 @@
+/* Pieces every screen uses: the title row, buttons, cards, form fields and messages. */
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.titleRow h2 {
+  margin: 0;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.button,
+.primary,
+.danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 7px 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 1px 1px rgb(23 32 51 / 0.05);
+  transition:
+    background-color 0.15s,
+    border-color 0.15s;
+}
+
+/* An icon before the label keeps its size, in the color of the label. */
+.button svg,
+.primary svg,
+.danger svg {
+  flex-shrink: 0;
+}
+
+.button:hover {
+  background: var(--sunken);
+}
+
+.primary {
+  border-color: var(--brand);
+  background: var(--brand);
+  color: var(--brand-ink);
+}
+
+.primary:hover {
+  border-color: var(--brand-strong);
+  background: var(--brand-strong);
+}
+
+.danger {
+  border-color: transparent;
+  background: none;
+  color: var(--danger);
+  box-shadow: none;
+}
+
+.danger:hover {
+  background: var(--danger-soft);
+}
+
+.button:disabled,
+.primary:disabled,
+.danger:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.card {
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.form {
+  display: grid;
+  gap: 18px;
+  max-width: 560px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+}
+
+.field > span:first-child,
+.field > label,
+.legend {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.field input,
+.field select {
+  padding: 9px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  transition: border-color 0.15s;
+}
+
+.field input:hover,
+.field select:hover {
+  border-color: var(--brand);
+}
+
+.fieldError {
+  color: var(--danger);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.alert {
+  margin: 0 0 16px;
+  padding: 12px 16px;
+  border: 1px solid #f3c0ba;
+  border-radius: var(--radius);
+  background: var(--danger-soft);
+  color: var(--danger);
+  font-weight: 600;
+}
+
+.notice {
+  margin: 0 0 16px;
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--brand-soft);
+  color: var(--brand-strong);
+  font-weight: 600;
+}

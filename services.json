@@ -1,0 +1,13 @@
+{
+  "db": {
+    "image": "mysql:8.4",
+    "memory": "512m",
+    "env": {
+      "MYSQL_ROOT_PASSWORD": "librarydesk",
+      "MYSQL_DATABASE": "librarydesk"
+    },
+    "variables": {
+      "DATABASE_URL": "mysql://root:librarydesk@{{host}}:{{port}}/librarydesk"
+    }
+  }
+}
