@@ -1,0 +1,166 @@
+.wrap {
+  container-type: inline-size;
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.table th {
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--line);
+  background: var(--sunken);
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.title {
+  display: block;
+  color: var(--ink);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.title:hover {
+  color: var(--brand);
+  text-decoration: underline;
+}
+
+.code {
+  display: block;
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 0.8125rem;
+}
+
+.late {
+  color: var(--danger);
+  font-weight: 700;
+}
+
+.reader {
+  white-space: nowrap;
+}
+
+.fine {
+  color: var(--danger);
+  font-weight: 700;
+}
+
+/* A date, a name or an amount reads on one line. */
+.table td[data-label='Due'],
+.table td[data-label='Fine'] {
+  white-space: nowrap;
+}
+
+.actions {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.actions button + button {
+  margin-left: 8px;
+}
+
+.hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+/* Without room for the columns (a phone, a tablet beside the rail), the table becomes a stack of cards: one per loan, each value beside its label. */
+@container (max-width: 699px) {
+  .table,
+  .table tbody,
+  .table tr,
+  .table td {
+    display: block;
+  }
+
+  .table {
+    border: none;
+    background: none;
+    box-shadow: none;
+  }
+
+  .table thead {
+    display: none;
+  }
+
+  .table tr {
+    margin-bottom: 12px;
+    padding: 14px 16px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+  }
+
+  .table td {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 6px 0;
+    border: none;
+    text-align: right;
+  }
+
+  .table td::before {
+    content: attr(data-label);
+    color: var(--muted);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .table td:first-child {
+    display: block;
+    padding-bottom: 10px;
+    text-align: left;
+  }
+
+  .table td:first-child::before,
+  .actions::before {
+    content: none;
+  }
+
+  .table td.actions {
+    justify-content: flex-end;
+    gap: 8px;
+    padding-top: 10px;
+    white-space: normal;
+  }
+
+  .actions button + button {
+    margin-left: 0;
+  }
+
+  .title {
+    font-size: 1.0625rem;
+  }
+}
