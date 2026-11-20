@@ -1,0 +1,178 @@
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  gap: 28px;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.heading {
+  display: grid;
+  flex: 1;
+  justify-items: start;
+  gap: 10px;
+  min-width: 0;
+}
+
+.heading h2 {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.heading p {
+  margin: 0;
+}
+
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+  margin: 4px 0 6px;
+}
+
+.facts dt {
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.facts dd {
+  margin: 2px 0 0;
+  font-weight: 500;
+}
+
+.author {
+  font-size: 1.0625rem;
+  font-weight: 500;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 340px);
+  align-items: start;
+  gap: 20px;
+}
+
+.side {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 14px;
+  font-size: 1.125rem;
+}
+
+.copies {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.copies li {
+  display: grid;
+  grid-template-columns: 76px auto minmax(0, 1fr);
+  align-items: center;
+  justify-items: start;
+  gap: 8px 16px;
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+}
+
+.copies li:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.code {
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  font-weight: 700;
+}
+
+.holder {
+  justify-self: end;
+  color: var(--muted);
+  font-size: 0.875rem;
+  text-align: right;
+}
+
+.queue {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 16px;
+  padding: 0;
+  list-style: none;
+}
+
+.queue li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+}
+
+.position {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  background: var(--amber-soft);
+  color: var(--amber);
+  font-size: 0.8125rem;
+  font-weight: 800;
+}
+
+/* Beside the rail of a tablet there is no room for two columns. */
+@media (max-width: 1023px) {
+  .columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* On a phone the holder goes under the code and the status. */
+@media (max-width: 559px) {
+  .copies li {
+    grid-template-columns: 76px minmax(0, 1fr);
+  }
+
+  .holder {
+    grid-column: 1 / -1;
+    justify-self: start;
+    text-align: left;
+  }
+}
+
+/* On a phone the cover goes above the title, smaller. */
+@media (max-width: 559px) {
+  .header {
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .header > span:first-child {
+    width: 120px;
+    height: 172px;
+    padding: 18px 12px 12px 18px;
+    font-size: 0.875rem;
+  }
+}
