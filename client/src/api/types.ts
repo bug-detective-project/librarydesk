@@ -66,7 +66,7 @@ export interface Loan {
   returnedAt: string | null;
   renewals: number;
   status: LoanStatus;
-  /** Reais as decimal text, the way MySQL keeps them: '1.50'. */
+  /** Dollars as decimal text, the way MySQL keeps them: '0.75'. */
   fine: string;
   finePaid: boolean;
 }
