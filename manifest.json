@@ -1,0 +1,425 @@
+{
+  "format": "bug-detective-project",
+  "formatVersion": 1,
+  "project": {
+    "id": "librarydesk",
+    "name": "LibraryDesk",
+    "difficulty": "beginner",
+    "stack": {
+      "frontend": "React · Vite · CSS Modules",
+      "backend": "Node.js · Express",
+      "database": "MySQL · Sequelize"
+    },
+    "services": {
+      "db": {
+        "image": "mysql:8.4",
+        "memory": "512m",
+        "env": {
+          "MYSQL_ROOT_PASSWORD": "librarydesk",
+          "MYSQL_DATABASE": "librarydesk"
+        },
+        "variables": {
+          "DATABASE_URL": "mysql://root:librarydesk@{{host}}:{{port}}/librarydesk",
+          "MYSQL_HOST": "{{host}}",
+          "MYSQL_TCP_PORT": "{{port}}"
+        }
+      }
+    }
+  },
+  "version": "1.0.0",
+  "createdAt": "2026-11-20T12:44:41.282Z",
+  "tickets": {
+    "total": 15,
+    "front": 8,
+    "back": 7
+  },
+  "entries": [
+    {
+      "id": "front-1",
+      "track": "front",
+      "order": 1,
+      "branch": "front-1",
+      "tag": "front-1-v1.0.0",
+      "commit": "e7ab2a7acfce3363e6b940e9977d7b851a5093fe",
+      "commitMessage": "LibraryDesk release front-1",
+      "codeDigest": "sha256:613f3cc0504c8ed00762641cd3eaa7e8f65a3327ef93e1aae346a24079067366",
+      "codeFiles": 126,
+      "package": {
+        "path": "tickets/front-1",
+        "files": 45,
+        "digest": "sha256:e070e36b20282062b81cfe983a69ee0f35c3b7879ba945e9f1a0c43f4c54abe1"
+      },
+      "type": "fix",
+      "skills": {
+        "en": [
+          "Local and derived state",
+          "Async and state"
+        ],
+        "pt": [
+          "Estado local e derivado",
+          "Assincronia e estado"
+        ]
+      }
+    },
+    {
+      "id": "front-2",
+      "track": "front",
+      "order": 2,
+      "branch": "front-2",
+      "tag": "front-2-v1.0.0",
+      "commit": "4ee24fca15a28d331b13777ebf5c54d88f0bbd2a",
+      "commitMessage": "LibraryDesk release front-2",
+      "codeDigest": "sha256:13d9448013dcdb2c16c604ce89b2bc61c49fffd3d1e7e699971188b6a31ea14e",
+      "codeFiles": 126,
+      "package": {
+        "path": "tickets/front-2",
+        "files": 45,
+        "digest": "sha256:339aba8d5d35d8d0e27e0adcfd688d9af96f284f83e1e4bcb2fb75fb3e684370"
+      },
+      "type": "fix",
+      "skills": {
+        "en": [
+          "Language and types"
+        ],
+        "pt": [
+          "Linguagem e tipos"
+        ]
+      }
+    },
+    {
+      "id": "front-3",
+      "track": "front",
+      "order": 3,
+      "branch": "front-3",
+      "tag": "front-3-v1.0.0",
+      "commit": "ac8c982e79839fdb5a8ac07ad21d3ee834bc80cc",
+      "commitMessage": "LibraryDesk release front-3",
+      "codeDigest": "sha256:9b77b9d650d8bfb81e0400fe7df6c439fff1c78b55337567ad2627ac0b2225ef",
+      "codeFiles": 126,
+      "package": {
+        "path": "tickets/front-3",
+        "files": 45,
+        "digest": "sha256:46aa47a3a2717a669e514be284527244b84807b5eb56f03313c13535820aa141"
+      },
+      "type": "fix",
+      "skills": {
+        "en": [
+          "Web platform: DOM and events",
+          "Forms and validation"
+        ],
+        "pt": [
+          "Plataforma web: DOM e eventos",
+          "Formulários e validação"
+        ]
+      }
+    },
+    {
+      "id": "front-4",
+      "track": "front",
+      "order": 4,
+      "branch": "front-4",
+      "tag": "front-4-v1.0.0",
+      "commit": "91154067e5e2560d99043e1353655fed69827289",
+      "commitMessage": "LibraryDesk release front-4",
+      "codeDigest": "sha256:c1bd5a95e10e7ed0cb3fcf34c7bea6266fe226ba2e5773a97da7bf9a501f4b13",
+      "codeFiles": 126,
+      "package": {
+        "path": "tickets/front-4",
+        "files": 45,
+        "digest": "sha256:bdd37cd4d852dc414725cef84e919995f0982b237e1f73ab0b6ca8f07b56a00f"
+      },
+      "type": "fix",
+      "skills": {
+        "en": [
+          "Everyday data structures and algorithms"
+        ],
+        "pt": [
+          "Estruturas de dados e algoritmos do dia a dia"
+        ]
+      }
+    },
+    {
+      "id": "front-5",
+      "track": "front",
+      "order": 5,
+      "branch": "front-5",
+      "tag": "front-5-v1.0.0",
+      "commit": "159451b5ab200165662212032b512d42adfc981b",
+      "commitMessage": "LibraryDesk release front-5",
+      "codeDigest": "sha256:a35ef373bcc322ce6d7ab1480ba94f1aeb07299c43c786b9249b90f6a6dbb66c",
+      "codeFiles": 126,
+      "package": {
+        "path": "tickets/front-5",
+        "files": 45,
+        "digest": "sha256:d1c4aa2cd4fe77dd6739b1744497533c45e3f58d205693489d859efc979b11cf"
+      },
+      "type": "fix",
+      "skills": {
+        "en": [
+          "Async and state",
+          "Routes and navigation"
+        ],
+        "pt": [
+          "Assincronia e estado",
+          "Criação de rotas e navegação"
+        ]
+      }
+    },
+    {
+      "id": "front-6",
+      "track": "front",
+      "order": 6,
+      "branch": "front-6",
+      "tag": "front-6-v1.0.0",
+      "commit": "2fdfc0e4857b3fd89c98c76fb8bf68168f38aa87",
+      "commitMessage": "LibraryDesk release front-6",
+      "codeDigest": "sha256:abdb36b04758bc8b75e59dd701d711442cc812ed58f6b800dcecc4bcb38b1af4",
+      "codeFiles": 125,
+      "package": {
+        "path": "tickets/front-6",
+        "files": 45,
+        "digest": "sha256:9ca8950213df6356bc10142afbbc789a0eb0d97253d7b7e5142b6c6c5fda421f"
+      },
+      "type": "build",
+      "skills": {
+        "en": [
+          "Building components"
+        ],
+        "pt": [
+          "Criação de componentes"
+        ]
+      }
+    },
+    {
+      "id": "front-7",
+      "track": "front",
+      "order": 7,
+      "branch": "front-7",
+      "tag": "front-7-v1.0.0",
+      "commit": "08da52fd24b54164235f9d9804394e1c04d40d1d",
+      "commitMessage": "LibraryDesk release front-7",
+      "codeDigest": "sha256:5d57e842c9bbe36f495400bba8d55e0061f87d5cade6e74f7e86404c45149cab",
+      "codeFiles": 126,
+      "package": {
+        "path": "tickets/front-7",
+        "files": 45,
+        "digest": "sha256:2b197c7599ee58cbff587e10e3ea2ec8bd1dacdb41d190b9c3f5bc27597411b2"
+      },
+      "type": "fix",
+      "skills": {
+        "en": [
+          "Layout and CSS"
+        ],
+        "pt": [
+          "Layout e CSS"
+        ]
+      }
+    },
+    {
+      "id": "front-8",
+      "track": "front",
+      "order": 8,
+      "branch": "front-8",
+      "tag": "front-8-v1.0.0",
+      "commit": "80436fa1c842b155ee25aca90cfbe92c16c0176b",
+      "commitMessage": "LibraryDesk release front-8",
+      "codeDigest": "sha256:c3e612e48998e60d6e31460f8c3b82e9fc5ab04d02e52ee1aaf57f973e4f3b7b",
+      "codeFiles": 126,
+      "package": {
+        "path": "tickets/front-8",
+        "files": 45,
+        "digest": "sha256:368abc2352cfbc8bde2efafcbce562ed89de64edc0094cbb7cec3edd4a87eca3"
+      },
+      "type": "complete",
+      "skills": {
+        "en": [
+          "Forms and validation"
+        ],
+        "pt": [
+          "Formulários e validação"
+        ]
+      }
+    },
+    {
+      "id": "back-1",
+      "track": "back",
+      "order": 1,
+      "branch": "back-1",
+      "tag": "back-1-v1.0.0",
+      "commit": "1e50e125334558fc04c779f2d0580165227a9ce8",
+      "commitMessage": "LibraryDesk release back-1",
+      "codeDigest": "sha256:b9e64d27cad219166bd81d9154fa72bcbcf88d5df3b58cb4bbe7a0b0633e7a4a",
+      "codeFiles": 126,
+      "package": {
+        "path": "tickets/back-1",
+        "files": 45,
+        "digest": "sha256:362fe38a08d552eec6b6f09b33b481b49bb95694b423d98d072c774586e41109"
+      },
+      "type": "fix",
+      "skills": {
+        "en": [
+          "Dates, numbers and text",
+          "Business rules and layers"
+        ],
+        "pt": [
+          "Datas, números e texto",
+          "Regras de negócio e camadas"
+        ]
+      }
+    },
+    {
+      "id": "back-2",
+      "track": "back",
+      "order": 2,
+      "branch": "back-2",
+      "tag": "back-2-v1.0.0",
+      "commit": "14a492c65ce6c4304df3e195335104de0b628927",
+      "commitMessage": "LibraryDesk release back-2",
+      "codeDigest": "sha256:713032c35167a43034d99b1f8c4737b4e7e19149f8fd2e0dfda28bc59f1ac4a5",
+      "codeFiles": 126,
+      "package": {
+        "path": "tickets/back-2",
+        "files": 45,
+        "digest": "sha256:08b64de2b47c52a66abfe29c151c9edfc05dc0a7ec6650c519b0e52c5e779dd9"
+      },
+      "type": "fix",
+      "skills": {
+        "en": [
+          "Business rules and layers"
+        ],
+        "pt": [
+          "Regras de negócio e camadas"
+        ]
+      }
+    },
+    {
+      "id": "back-3",
+      "track": "back",
+      "order": 3,
+      "branch": "back-3",
+      "tag": "back-3-v1.0.0",
+      "commit": "e1326d99b27ecbf2b322255e252249a1668c007f",
+      "commitMessage": "LibraryDesk release back-3",
+      "codeDigest": "sha256:05e6f2e1b7fa7bf51906bb42a77e77a2687c54777d3f02b0b4fbb3080cdd6270",
+      "codeFiles": 126,
+      "package": {
+        "path": "tickets/back-3",
+        "files": 45,
+        "digest": "sha256:bd3ff1fc26c8b2da20b6b2b9394701db29afda3427d752f58b7b151bb3974985"
+      },
+      "type": "fix",
+      "skills": {
+        "en": [
+          "Search, filters and pagination",
+          "Databases and queries"
+        ],
+        "pt": [
+          "Busca, filtros e paginação",
+          "Banco de dados e consultas"
+        ]
+      }
+    },
+    {
+      "id": "back-4",
+      "track": "back",
+      "order": 4,
+      "branch": "back-4",
+      "tag": "back-4-v1.0.0",
+      "commit": "984745666fe7a1aa74ac941ab72dba44e66ed311",
+      "commitMessage": "LibraryDesk release back-4",
+      "codeDigest": "sha256:23c1ba4bb33b68a784d62b97528a053981e17c62652169fcc17a8ff58ffb2c72",
+      "codeFiles": 126,
+      "package": {
+        "path": "tickets/back-4",
+        "files": 45,
+        "digest": "sha256:d2cfc40a1bc755b07e0b2e29f884c2de206978ea4a22d06728f497d7f3cc61d1"
+      },
+      "type": "fix",
+      "skills": {
+        "en": [
+          "Input validation"
+        ],
+        "pt": [
+          "Validação de entrada"
+        ]
+      }
+    },
+    {
+      "id": "back-5",
+      "track": "back",
+      "order": 5,
+      "branch": "back-5",
+      "tag": "back-5-v1.0.0",
+      "commit": "bf3f42ed27fad568a858d691e69cbf63fd7fff4b",
+      "commitMessage": "LibraryDesk release back-5",
+      "codeDigest": "sha256:e4b0fe8c9e0109485aaf75d412fabfca53a02a068e8c4b71b978bd9655f4a15c",
+      "codeFiles": 126,
+      "package": {
+        "path": "tickets/back-5",
+        "files": 45,
+        "digest": "sha256:5dcda34badcbd14c9e3354e71ef8849542930e9c31aec5646f772fefa871796f"
+      },
+      "type": "fix",
+      "skills": {
+        "en": [
+          "Databases and queries"
+        ],
+        "pt": [
+          "Banco de dados e consultas"
+        ]
+      }
+    },
+    {
+      "id": "back-6",
+      "track": "back",
+      "order": 6,
+      "branch": "back-6",
+      "tag": "back-6-v1.0.0",
+      "commit": "d83f2e4b65b489e1d62672229027682ca2839883",
+      "commitMessage": "LibraryDesk release back-6",
+      "codeDigest": "sha256:9e11850f6189c83d6fbfbfac09024022af4b392e4e97897831e75ad60df2034f",
+      "codeFiles": 126,
+      "package": {
+        "path": "tickets/back-6",
+        "files": 45,
+        "digest": "sha256:0a293597b44e0220f1b72f91d4d85f63d9c973faf92dbefaf46a771db1a710f5"
+      },
+      "type": "build",
+      "skills": {
+        "en": [
+          "Routes and endpoints",
+          "Business rules and layers"
+        ],
+        "pt": [
+          "Criação de rotas e endpoints",
+          "Regras de negócio e camadas"
+        ]
+      }
+    },
+    {
+      "id": "back-7",
+      "track": "back",
+      "order": 7,
+      "branch": "back-7",
+      "tag": "back-7-v1.0.0",
+      "commit": "6a13136346760e9dc904622c9aa65409ad91f560",
+      "commitMessage": "LibraryDesk release back-7",
+      "codeDigest": "sha256:62f20e5293f2c3594bfca59060ea046bd4a67e3ad3307d21a05280c5e7b7bb57",
+      "codeFiles": 126,
+      "package": {
+        "path": "tickets/back-7",
+        "files": 45,
+        "digest": "sha256:33c7c2380660dce97c258c7820c529a8c72ccc1f283a92dd53fc0c43d3107a2b"
+      },
+      "type": "fix",
+      "skills": {
+        "en": [
+          "Error handling and resilience"
+        ],
+        "pt": [
+          "Erros e resiliência"
+        ]
+      }
+    }
+  ]
+}
