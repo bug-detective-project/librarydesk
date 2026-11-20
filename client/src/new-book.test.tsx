@@ -40,6 +40,16 @@ describe('a new book', () => {
     expect(api.calls('POST', '/api/books')[0]!.body).toMatchObject({ authorName: 'Aluísio Azevedo' });
   });
 
+  it('puts the dashes in the ISBN as it is typed, and takes only digits', async () => {
+    mockApi();
+    await renderApp('/books/new');
+    const isbn = within(screen.getByRole('form', { name: 'New book' })).getByLabelText('ISBN');
+
+    await userEvent.type(isbn, '97885a0800 0005999');
+
+    expect(isbn).toHaveValue('978-85-0800-000-5');
+  });
+
   it('shows what the API says about each field', async () => {
     mockApi({
       respond: (request) =>

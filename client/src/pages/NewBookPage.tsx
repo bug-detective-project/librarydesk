@@ -7,6 +7,7 @@ import { AuthorField } from '../components/AuthorField.tsx';
 import type { AuthorChoice } from '../components/AuthorField.tsx';
 import { Icon } from '../components/Icon.tsx';
 import ui from '../components/ui.module.css';
+import { maskIsbn } from '../masks.ts';
 import { useToast } from '../useToast.ts';
 import styles from './NewBookPage.module.css';
 
@@ -71,7 +72,7 @@ export function NewBookPage() {
         <div className={styles.row}>
           <div className={ui.field}>
             <label htmlFor="isbn">ISBN</label>
-            <input id="isbn" inputMode="numeric" placeholder="978-85-..." value={isbn} onChange={(event) => setIsbn(event.target.value)} {...fieldProps('isbn')} />
+            <input id="isbn" inputMode="numeric" placeholder="978-85-0000-000-0" maxLength={17} value={isbn} onChange={(event) => setIsbn(maskIsbn(event.target.value))} {...fieldProps('isbn')} />
             {fieldError('isbn')}
           </div>
           <div className={ui.field}>
