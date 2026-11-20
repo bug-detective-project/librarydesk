@@ -60,24 +60,7 @@
 }
 
 .reader {
-  display: inline-flex;
   white-space: nowrap;
-  align-items: center;
-  gap: 9px;
-}
-
-.avatar {
-  display: inline-flex;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 999px;
-  background: var(--brand-soft);
-  color: var(--brand-strong);
-  font-size: 0.6875rem;
-  font-weight: 800;
 }
 
 .fine {

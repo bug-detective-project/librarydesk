@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 import type { Loan } from '../api/types.ts';
-import { dueText, formatDay, formatReais, initials } from '../format.ts';
+import { dueText, formatDay, formatReais } from '../format.ts';
 import { useToday } from '../useToday.ts';
 import { Icon } from './Icon.tsx';
 import styles from './LoanTable.module.css';
@@ -50,13 +50,8 @@ export function LoanTable({ loans, label, showReader = true, busyId = null, onRe
                 <span className={styles.code}>Copy {loan.copy.code}</span>
               </td>
               {showReader && (
-                <td data-label="Reader">
-                  <span className={styles.reader}>
-                    <span aria-hidden="true" className={styles.avatar}>
-                      {initials(loan.reader.name)}
-                    </span>
-                    <Link to={`/readers/${loan.reader.id}`}>{loan.reader.name}</Link>
-                  </span>
+                <td data-label="Reader" className={styles.reader}>
+                  <Link to={`/readers/${loan.reader.id}`}>{loan.reader.name}</Link>
                 </td>
               )}
               <td data-label="Due">
