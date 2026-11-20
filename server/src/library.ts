@@ -6,7 +6,7 @@ import { Op } from 'sequelize';
 import type { Includeable } from 'sequelize';
 import { addDays, now, today } from './clock.ts';
 import { ConflictError, InvalidError, NotFoundError } from './errors.ts';
-import { LOAN_DAYS, MAX_RENEWALS, fineFor, reais } from './fines.ts';
+import { LOAN_DAYS, MAX_RENEWALS, dollars, fineFor } from './fines.ts';
 import { parseIsbn } from './isbn.ts';
 import { Author, Book, Copy, Loan, Reader, Reservation } from './models.ts';
 import { bookDetails, bookSummary, loanView, readerSummary } from './views.ts';
@@ -164,7 +164,7 @@ export async function openLoans(readerId: unknown) {
   return [...out, ...back].map(loanView);
 }
 
-/** The fines of the books a reader brought back late and has not paid yet, in reais. */
+/** The fines of the books a reader brought back late and has not paid yet, in dollars. */
 async function finesDue(readerId: number): Promise<number> {
   const loans = await Loan.findAll({ where: { readerId, finePaid: false, returnedAt: { [Op.ne]: null } } });
   return loans.reduce((total, loan) => total + Number(loan.fine), 0);
@@ -211,7 +211,7 @@ export async function lend(input: { copyId?: unknown; readerId?: unknown }) {
   }
   const due = await finesDue(reader.id);
   if (due > 0) {
-    throw new ConflictError(`${reader.name} has ${reais(due)} in unpaid fines`);
+    throw new ConflictError(`${reader.name} has ${dollars(due)} in unpaid fines`);
   }
 
   const day = today();

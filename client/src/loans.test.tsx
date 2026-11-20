@@ -11,8 +11,8 @@ describe('the loans', () => {
 
     const table = await screen.findByRole('table', { name: 'Loans' });
     const rows = within(table).getAllByRole('row').slice(1);
-    expect(rows.map((row) => within(row).getAllByRole('link')[0]!.textContent)).toEqual(['Capitães da Areia', 'Dom Casmurro', 'Ou Isto ou Aquilo']);
-    expect(rows[0]).toHaveTextContent('R$ 3,00');
+    expect(rows.map((row) => within(row).getAllByRole('link')[0]!.textContent)).toEqual(['Number the Stars', 'To Kill a Mockingbird', 'A Wrinkle in Time']);
+    expect(rows[0]).toHaveTextContent('$1.50');
   });
 
   it('has a tab with the overdue copies', async () => {
@@ -31,7 +31,7 @@ describe('the loans', () => {
     await renderApp('/loans');
     await screen.findByRole('table', { name: 'Loans' });
 
-    await userEvent.click(screen.getByRole('button', { name: 'Return Dom Casmurro' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Return To Kill a Mockingbird' }));
 
     expect(await screen.findByText('Copy B001-1 is back on the shelf')).toBeInTheDocument();
     expect(api.calls('POST', '/api/loans/1/return')).toHaveLength(1);
@@ -44,9 +44,9 @@ describe('the loans', () => {
     await renderApp('/loans');
     await screen.findByRole('table', { name: 'Loans' });
 
-    await userEvent.click(screen.getByRole('button', { name: 'Return Capitães da Areia' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Return Number the Stars' }));
 
-    expect(await screen.findByText('Copy B003-1 is back, R$ 3,00 in fines')).toBeInTheDocument();
+    expect(await screen.findByText('Copy B003-1 is back, $1.50 in fines')).toBeInTheDocument();
   });
 
   it('renews a loan and says the new due date', async () => {
@@ -54,9 +54,9 @@ describe('the loans', () => {
     await renderApp('/loans');
     await screen.findByRole('table', { name: 'Loans' });
 
-    await userEvent.click(screen.getByRole('button', { name: 'Renew Dom Casmurro' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Renew To Kill a Mockingbird' }));
 
-    expect(await screen.findByText('Dom Casmurro is renewed until Mar 23, 2026')).toBeInTheDocument();
+    expect(await screen.findByText('To Kill a Mockingbird is renewed until Mar 23, 2026')).toBeInTheDocument();
     expect(await within(screen.getByTestId('loan-1')).findByText('Renewed 1×')).toBeInTheDocument();
   });
 
@@ -65,7 +65,7 @@ describe('the loans', () => {
     await renderApp('/loans');
     await screen.findByRole('table', { name: 'Loans' });
 
-    await userEvent.click(screen.getByRole('button', { name: 'Renew Capitães da Areia' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Renew Number the Stars' }));
 
     expect(await screen.findByRole('alert')).toHaveTextContent('The loan is overdue: return the copy first');
   });

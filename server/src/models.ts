@@ -36,7 +36,7 @@ export class Copy extends Model<InferAttributes<Copy>, InferCreationAttributes<C
 export class Reader extends Model<InferAttributes<Reader>, InferCreationAttributes<Reader>> {
   declare id: CreationOptional<number>;
   declare name: string;
-  /** 'Class 7B', or 'Teachers'. */
+  /** 'Grade 7', or 'Teachers'. */
   declare group: string;
   /** The number on the library card: 'R-0007'. */
   declare card: string;

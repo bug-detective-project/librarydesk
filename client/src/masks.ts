@@ -1,5 +1,5 @@
-/** The groups of an ISBN-13 as Brazilian books print it: 978-85-0000-000-0. */
-const ISBN_GROUPS = [3, 2, 4, 3, 1];
+/** The groups the desk writes an ISBN-13 in: 978-0-0000-0000-0. */
+const ISBN_GROUPS = [3, 1, 4, 4, 1];
 
 /**
  * An ISBN as the librarian types it: digits only, at most 13, with a dash between the groups.

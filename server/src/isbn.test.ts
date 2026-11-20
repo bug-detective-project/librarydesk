@@ -20,8 +20,7 @@ describe('ISBN', () => {
     expect(parseIsbn('hello')).toBeNull();
   });
 
-  it('prints a Brazilian ISBN with its groups', () => {
-    expect(formatIsbn('9788535902778')).toBe('978-85-3590-277-8');
-    expect(formatIsbn('9780306406157')).toBe('9780306406157');
+  it('prints an ISBN with its groups', () => {
+    expect(formatIsbn('9780306406157')).toBe('978-0-3064-0615-7');
   });
 });

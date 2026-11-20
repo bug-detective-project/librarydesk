@@ -43,7 +43,7 @@ export interface BookDetails extends Book {
 export interface ReaderSummary {
   id: number;
   name: string;
-  /** 'Class 7B', or 'Teachers'. */
+  /** 'Grade 7', or 'Teachers'. */
   group: string;
   card: string;
   openLoans: number;

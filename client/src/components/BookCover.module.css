@@ -50,8 +50,11 @@
   overflow-wrap: break-word;
 }
 
-.small .title {
-  font-size: 0.5625rem;
+.letter {
+  margin: auto;
+  font-size: 1.875rem;
+  font-weight: 800;
+  line-height: 1;
 }
 
 .large .title {
@@ -64,10 +67,6 @@
   opacity: 0.85;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.small .author {
-  font-size: 0.4375rem;
 }
 
 .large .author {

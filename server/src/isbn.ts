@@ -1,6 +1,6 @@
 /**
  * ISBN-13, the number printed on the back of every book since 2007. People type it with dashes or
- * spaces ('978-85-359-0277-5'); the library keeps only the 13 digits.
+ * spaces ('978-0-0611-2008-4'); the library keeps only the 13 digits.
  */
 
 /** The digits of an ISBN as typed, without the dashes and spaces between its groups. */
@@ -23,7 +23,15 @@ export function parseIsbn(typed: string): string | null {
   return isValidIsbn(digits) ? digits : null;
 }
 
-/** An ISBN as it is printed: 978-85-0000-000-0 for the Brazilian ones, the bare digits otherwise. */
+/** The groups the desk prints an ISBN in: 978-0-0000-0000-0. */
+const GROUPS = [3, 1, 4, 4, 1];
+
+/** An ISBN as the desk prints it, with a dash between the groups. */
 export function formatIsbn(digits: string): string {
-  return digits.startsWith('97885') ? `${digits.slice(0, 3)}-${digits.slice(3, 5)}-${digits.slice(5, 9)}-${digits.slice(9, 12)}-${digits[12]}` : digits;
+  let rest = digits;
+  return GROUPS.map((size) => {
+    const group = rest.slice(0, size);
+    rest = rest.slice(size);
+    return group;
+  }).join('-');
 }

@@ -41,22 +41,22 @@ describe('the loans at the desk', () => {
 
     expect(status).toBe(200);
     expect(body).toHaveLength(7);
-    expect(body[0]).toMatchObject({ book: { title: 'Capitães da Areia' }, copy: { code: 'B005-1' }, reader: { name: 'Bruno Lima' }, dueOn: '2026-03-03', status: 'overdue' });
+    expect(body[0]).toMatchObject({ book: { title: 'Number the Stars' }, copy: { code: 'B005-1' }, reader: { name: 'Liam Carter' }, dueOn: '2026-03-03', status: 'overdue' });
     expect(body.every((loan) => loan.returnedAt === null)).toBe(true);
   });
 
   it('lists the overdue copies', async () => {
     const { body } = await api.get<LoanView[]>('/api/loans?status=overdue');
 
-    expect(body.map((loan) => loan.reader.name)).toEqual(expect.arrayContaining(['Bruno Lima', 'Igor Teixeira']));
+    expect(body.map((loan) => loan.reader.name)).toEqual(expect.arrayContaining(['Liam Carter', 'David Kim']));
     expect(body.every((loan) => loan.dueOn < '2026-03-09')).toBe(true);
   });
 
   it('shows what an overdue loan owes so far', async () => {
     const { body } = await api.get<LoanView[]>('/api/loans?status=active');
 
-    expect(Number(body.find((loan) => loan.reader.name === 'Bruno Lima')!.fine)).toBeGreaterThan(0);
-    expect(body.find((loan) => loan.reader.name === 'Ana Souza')!.fine).toBe('0.00');
+    expect(Number(body.find((loan) => loan.reader.name === 'Liam Carter')!.fine)).toBeGreaterThan(0);
+    expect(body.find((loan) => loan.reader.name === 'Emma Johnson')!.fine).toBe('0.00');
   });
 
   it('refuses a status it does not know', async () => {
@@ -71,7 +71,7 @@ describe('lending', () => {
     const { status, body } = await api.post<LoanView>('/api/loans', { copyId: copy, readerId: 2 });
 
     expect(status).toBe(201);
-    expect(body).toMatchObject({ copy: { code: 'B001-2' }, reader: { name: 'Bruno Lima' }, loanedOn: '2026-03-09', dueOn: '2026-03-23', renewals: 0, status: 'on_loan', fine: '0.00' });
+    expect(body).toMatchObject({ copy: { code: 'B001-2' }, reader: { name: 'Liam Carter' }, loanedOn: '2026-03-09', dueOn: '2026-03-23', renewals: 0, status: 'on_loan', fine: '0.00' });
     expect((await api.get<Details>('/api/books/1')).body.available).toBe(1);
   });
 
@@ -81,7 +81,7 @@ describe('lending', () => {
     const { status, body } = await api.post<{ error: string }>('/api/loans', { copyId: copy, readerId: 4 });
 
     expect(status).toBe(409);
-    expect(body.error).toBe('Davi Rocha has R$ 3.50 in unpaid fines');
+    expect(body.error).toBe('Noah Ramirez has $1.75 in unpaid fines');
   });
 
   it('lends again once the fines are paid', async () => {
@@ -98,10 +98,10 @@ describe('lending', () => {
   });
 
   it('takes the reader off the queue of the book they take home', async () => {
-    const gabriela = await loanOf(7, 'Ou Isto ou Aquilo');
-    await api.post(`/api/loans/${gabriela.id}/return`);
+    const sophia = await loanOf(7, 'A Wrinkle in Time');
+    await api.post(`/api/loans/${sophia.id}/return`);
 
-    const { status } = await api.post('/api/loans', { copyId: gabriela.copy.id, readerId: 1 });
+    const { status } = await api.post('/api/loans', { copyId: sophia.copy.id, readerId: 1 });
 
     expect(status).toBe(201);
     expect((await api.get<Details>('/api/books/9')).body.reservations).toEqual([]);
@@ -110,17 +110,17 @@ describe('lending', () => {
 
 describe('returning', () => {
   it('takes a copy back early without a fine, and it is on the shelf again', async () => {
-    const loan = await loanOf(1, 'Dom Casmurro');
+    const loan = await loanOf(1, 'To Kill a Mockingbird');
 
     const { status, body } = await api.post<LoanView>(`/api/loans/${loan.id}/return`);
 
     expect(status).toBe(200);
-    expect(body).toMatchObject({ status: 'returned', fine: '0.00', returnedAt: '2026-03-09T13:15:00.000Z' });
+    expect(body).toMatchObject({ status: 'returned', fine: '0.00', returnedAt: '2026-03-09T14:15:00.000Z' });
     expect((await api.get<Details>('/api/books/1')).body.available).toBe(3);
   });
 
   it('charges a fine for a copy that comes back days late', async () => {
-    const loan = await loanOf(2, 'Capitães da Areia');
+    const loan = await loanOf(2, 'Number the Stars');
 
     const { body } = await api.post<LoanView>(`/api/loans/${loan.id}/return`);
 
@@ -129,7 +129,7 @@ describe('returning', () => {
   });
 
   it('refuses a copy that is already back', async () => {
-    const loan = await loanOf(1, 'Dom Casmurro');
+    const loan = await loanOf(1, 'To Kill a Mockingbird');
     await api.post(`/api/loans/${loan.id}/return`);
 
     expect((await api.post(`/api/loans/${loan.id}/return`)).status).toBe(409);
@@ -142,7 +142,7 @@ describe('reserving', () => {
 
     expect(status).toBe(201);
     expect(body).toMatchObject({ position: 2, ready: false });
-    expect((await api.get<Details>('/api/books/9')).body.reservations.map((reservation) => reservation.reader.name)).toEqual(['Ana Souza', 'Bruno Lima']);
+    expect((await api.get<Details>('/api/books/9')).body.reservations.map((reservation) => reservation.reader.name)).toEqual(['Emma Johnson', 'Liam Carter']);
   });
 
   it('puts a copy aside when the book is on the shelf', async () => {

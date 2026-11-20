@@ -5,9 +5,9 @@ import { json, mockApi } from './test/mockApi.ts';
 import { renderApp } from './test/renderApp.tsx';
 
 async function fillBook(form: HTMLElement) {
-  await userEvent.type(within(form).getByLabelText('Title'), 'Helena');
-  await userEvent.type(within(form).getByLabelText('ISBN'), '978-85-0800-000-5');
-  await userEvent.type(within(form).getByLabelText('Year'), '1876');
+  await userEvent.type(within(form).getByLabelText('Title'), 'Go Set a Watchman');
+  await userEvent.type(within(form).getByLabelText('ISBN'), '9780306406157');
+  await userEvent.type(within(form).getByLabelText('Year'), '2015');
 }
 
 describe('a new book', () => {
@@ -17,13 +17,13 @@ describe('a new book', () => {
     const form = screen.getByRole('form', { name: 'New book' });
 
     await fillBook(form);
-    await userEvent.type(within(form).getByRole('combobox', { name: 'Author' }), 'mach');
-    await userEvent.click(await screen.findByRole('option', { name: 'Machado de Assis' }));
+    await userEvent.type(within(form).getByRole('combobox', { name: 'Author' }), 'harp');
+    await userEvent.click(await screen.findByRole('option', { name: 'Harper Lee' }));
     await userEvent.click(within(form).getByRole('button', { name: 'Add book' }));
 
-    expect(await screen.findByText('Helena is in the collection')).toBeInTheDocument();
-    expect(api.calls('POST', '/api/books')[0]!.body).toEqual({ title: 'Helena', authorId: 1, isbn: '978-85-0800-000-5', year: 1876, copies: 1 });
-    expect(await screen.findByRole('heading', { name: 'Helena', level: 2 })).toBeInTheDocument();
+    expect(await screen.findByText('Go Set a Watchman is in the collection')).toBeInTheDocument();
+    expect(api.calls('POST', '/api/books')[0]!.body).toEqual({ title: 'Go Set a Watchman', authorId: 1, isbn: '978-0-3064-0615-7', year: 2015, copies: 1 });
+    expect(await screen.findByRole('heading', { name: 'Go Set a Watchman', level: 2 })).toBeInTheDocument();
   });
 
   it('is added by a new author when the name is not on the list', async () => {
@@ -32,12 +32,12 @@ describe('a new book', () => {
     const form = screen.getByRole('form', { name: 'New book' });
 
     await fillBook(form);
-    await userEvent.type(within(form).getByRole('combobox', { name: 'Author' }), 'Aluísio Azevedo');
-    expect(within(form).getByText('New author: Aluísio Azevedo')).toBeInTheDocument();
+    await userEvent.type(within(form).getByRole('combobox', { name: 'Author' }), 'Louisa May Alcott');
+    expect(within(form).getByText('New author: Louisa May Alcott')).toBeInTheDocument();
     await userEvent.click(within(form).getByRole('button', { name: 'Add book' }));
 
-    await screen.findByText('Helena is in the collection');
-    expect(api.calls('POST', '/api/books')[0]!.body).toMatchObject({ authorName: 'Aluísio Azevedo' });
+    await screen.findByText('Go Set a Watchman is in the collection');
+    expect(api.calls('POST', '/api/books')[0]!.body).toMatchObject({ authorName: 'Louisa May Alcott' });
   });
 
   it('puts the dashes in the ISBN as it is typed, and takes only digits', async () => {
@@ -45,9 +45,9 @@ describe('a new book', () => {
     await renderApp('/books/new');
     const isbn = within(screen.getByRole('form', { name: 'New book' })).getByLabelText('ISBN');
 
-    await userEvent.type(isbn, '97885a0800 0005999');
+    await userEvent.type(isbn, '9780a306 40615 7999');
 
-    expect(isbn).toHaveValue('978-85-0800-000-5');
+    expect(isbn).toHaveValue('978-0-3064-0615-7');
   });
 
   it('shows what the API says about each field', async () => {

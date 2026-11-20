@@ -1,9 +1,8 @@
-/** Reais as Brazilians write them: R$ 3,50. */
-const REAIS = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+/** Dollars as the desk writes them: $1.75. */
+const DOLLARS = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
 
-export function formatReais(amount: number): string {
-  // Intl puts a no-break space after R$; a plain one reads and searches the same everywhere.
-  return REAIS.format(amount).replace(/\s/, ' ');
+export function formatDollars(amount: number): string {
+  return DOLLARS.format(amount);
 }
 
 /** The fines a reader still owes: those of the loans that came back late and are not paid. */
@@ -19,12 +18,12 @@ export function formatDay(day: string): string {
   return `${MONTHS[month! - 1]} ${date}, ${year}`;
 }
 
-/** A moment of the API as the day it happened in São Paulo. */
+/** A moment of the API as the day it happened at the school, in New York time. */
 export function formatMoment(iso: string): string {
-  return formatDay(new Date(iso).toLocaleDateString('en-CA', { timeZone: 'America/Sao_Paulo' }));
+  return formatDay(new Date(iso).toLocaleDateString('en-CA', { timeZone: 'America/New_York' }));
 }
 
-/** The initials on a reader's avatar: 'AS' for Ana Souza. */
+/** The initials on a reader's avatar: 'EJ' for Emma Johnson. */
 export function initials(name: string): string {
   const words = name.split(/\s+/).filter(Boolean);
   return `${words[0]?.[0] ?? ''}${words.length > 1 ? words.at(-1)![0] : ''}`.toUpperCase();

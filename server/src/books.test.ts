@@ -26,22 +26,22 @@ describe('the collection', () => {
     expect(body).toHaveLength(15);
     expect(body[0]).toEqual({
       id: 1,
-      title: 'Dom Casmurro',
-      author: { id: 1, name: 'Machado de Assis' },
-      isbn: expect.stringMatching(/^978-85-\d{4}-\d{3}-\d$/),
-      year: 1899,
+      title: 'To Kill a Mockingbird',
+      author: { id: 1, name: 'Harper Lee' },
+      isbn: expect.stringMatching(/^978-\d-\d{4}-\d{4}-\d$/),
+      year: 1960,
       copies: 3,
       available: 2,
       status: 'available',
     });
-    expect(body.find((book) => book.title === 'A Bolsa Amarela')).toMatchObject({ available: 0, status: 'on_loan' });
-    expect(body.find((book) => book.title === 'Ou Isto ou Aquilo')).toMatchObject({ available: 0, status: 'reserved' });
+    expect(body.find((book) => book.title === 'Fahrenheit 451')).toMatchObject({ available: 0, status: 'on_loan' });
+    expect(body.find((book) => book.title === 'A Wrinkle in Time')).toMatchObject({ available: 0, status: 'reserved' });
   });
 
   it('finds books by a piece of the title, in any case', async () => {
-    const { body } = await api.get<Summary[]>('/api/books?q=capit%C3%A3es');
+    const { body } = await api.get<Summary[]>('/api/books?q=STARS');
 
-    expect(body.map((book) => book.title)).toEqual(['Capitães da Areia']);
+    expect(body.map((book) => book.title)).toEqual(['Number the Stars']);
   });
 
   it('takes the % of a search literally', async () => {
@@ -53,9 +53,9 @@ describe('the collection', () => {
   it('shows each copy of a book, who has it and until when, and who is waiting', async () => {
     const { body } = await api.get<Details>('/api/books/9');
 
-    expect(body.title).toBe('Ou Isto ou Aquilo');
-    expect(body.copyList).toEqual([{ id: expect.any(Number), code: 'B009-1', status: 'on_loan', loan: { id: expect.any(Number), dueOn: '2026-03-16', reader: { id: 7, name: 'Gabriela Nunes' } } }]);
-    expect(body.reservations).toEqual([{ id: expect.any(Number), position: 1, reader: { id: 1, name: 'Ana Souza' }, createdAt: expect.any(String) }]);
+    expect(body.title).toBe('A Wrinkle in Time');
+    expect(body.copyList).toEqual([{ id: expect.any(Number), code: 'B009-1', status: 'on_loan', loan: { id: expect.any(Number), dueOn: '2026-03-16', reader: { id: 7, name: 'Sophia Nguyen' } } }]);
+    expect(body.reservations).toEqual([{ id: expect.any(Number), position: 1, reader: { id: 1, name: 'Emma Johnson' }, createdAt: expect.any(String) }]);
   });
 
   it('marks a copy that should be back already as overdue', async () => {
@@ -75,21 +75,21 @@ describe('the collection', () => {
 });
 
 describe('a new book', () => {
-  const input = { title: 'O Cortiço', authorName: 'Aluísio Azevedo', isbn: '9788508040001', year: 1890, copies: 2 };
+  const input = { title: 'Little Women', authorName: 'Louisa May Alcott', isbn: '9788508040001', year: 1868, copies: 2 };
 
   it('is added with a new author and its copies, labelled after the book', async () => {
     const { status, body } = await api.post<Details>('/api/books', { ...input, isbn: '9788508000005' });
 
     expect(status, JSON.stringify(body)).toBe(201);
-    expect(body).toMatchObject({ title: 'O Cortiço', author: { name: 'Aluísio Azevedo' }, year: 1890, copies: 2, available: 2, status: 'available' });
+    expect(body).toMatchObject({ title: 'Little Women', author: { name: 'Louisa May Alcott' }, year: 1868, copies: 2, available: 2, status: 'available' });
     expect(body.copyList.map((copy) => copy.code)).toEqual(['B016-1', 'B016-2']);
   });
 
   it('can be by an author the library already has', async () => {
-    const { status, body } = await api.post<Details>('/api/books', { title: 'Helena', authorId: 1, isbn: '9788508000005', year: 1876 });
+    const { status, body } = await api.post<Details>('/api/books', { title: 'Go Set a Watchman', authorId: 1, isbn: '9788508000005', year: 2015 });
 
     expect(status).toBe(201);
-    expect(body.author).toEqual({ id: 1, name: 'Machado de Assis' });
+    expect(body.author).toEqual({ id: 1, name: 'Harper Lee' });
     expect(body.copies).toBe(1);
   });
 
@@ -111,7 +111,7 @@ describe('a new book', () => {
   });
 
   it('refuses an author that does not exist', async () => {
-    const { status } = await api.post('/api/books', { title: 'Helena', authorId: 999, isbn: '9788508000005', year: 1876 });
+    const { status } = await api.post('/api/books', { title: 'Go Set a Watchman', authorId: 999, isbn: '9788508000005', year: 2015 });
 
     expect(status).toBe(400);
   });
@@ -119,8 +119,8 @@ describe('a new book', () => {
 
 describe('authors', () => {
   it('are found by a piece of the name, in alphabetical order', async () => {
-    const { body } = await api.get<{ name: string }[]>('/api/authors?q=ma');
+    const { body } = await api.get<{ name: string }[]>('/api/authors?q=lo');
 
-    expect(body.map((author) => author.name)).toEqual(['Jorge Amado', 'Machado de Assis', 'Maria José Dupré']);
+    expect(body.map((author) => author.name)).toEqual(['Lois Lowry', 'Louis Sachar']);
   });
 });

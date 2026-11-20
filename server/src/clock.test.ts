@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { addDays, daysBetween, libraryDate, now, today } from './clock.ts';
+import { addDays, daysBetween, libraryDate, libraryMoment, now, today } from './clock.ts';
 
 describe('the library calendar', () => {
   it('counts days across months and years', () => {
@@ -13,11 +13,17 @@ describe('the library calendar', () => {
   it('takes the day and the time from the environment when they are set', () => {
     const env = { LIBRARYDESK_TODAY: '2026-03-09', LIBRARYDESK_TIME: '10:15' };
     expect(today(env)).toBe('2026-03-09');
-    expect(now(env).toISOString()).toBe('2026-03-09T13:15:00.000Z');
+    // Daylight saving time started on Sunday, March 8: New York is 4 hours behind UTC.
+    expect(now(env).toISOString()).toBe('2026-03-09T14:15:00.000Z');
   });
 
-  it('says the day of a moment in São Paulo, not in UTC', () => {
-    expect(libraryDate(new Date('2026-03-10T01:30:00Z'))).toBe('2026-03-09');
-    expect(libraryDate(new Date('2026-03-10T03:30:00Z'))).toBe('2026-03-10');
+  it('follows daylight saving time in New York', () => {
+    expect(libraryMoment('2026-03-06', '10:15').toISOString()).toBe('2026-03-06T15:15:00.000Z');
+    expect(libraryMoment('2026-07-01', '10:15').toISOString()).toBe('2026-07-01T14:15:00.000Z');
+  });
+
+  it('says the day of a moment in New York, not in UTC', () => {
+    expect(libraryDate(new Date('2026-03-10T02:30:00Z'))).toBe('2026-03-09');
+    expect(libraryDate(new Date('2026-03-10T05:30:00Z'))).toBe('2026-03-10');
   });
 });

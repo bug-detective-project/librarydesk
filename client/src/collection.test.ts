@@ -13,19 +13,19 @@ const book = (id: number, title: string, author: string, year: number): Book => 
   status: 'available',
 });
 
-const books = [book(1, 'Vidas Secas', 'Graciliano Ramos', 1938), book(2, 'Capitães da Areia', 'Jorge Amado', 1937), book(3, 'Dom Casmurro', 'Machado de Assis', 1899)];
+const books = [book(1, 'Wonder', 'R. J. Palacio', 2012), book(2, 'Holes', 'Louis Sachar', 1998), book(3, 'Hatchet', 'Gary Paulsen', 1987)];
 
 describe('sorting the collection', () => {
   it('sorts by title', () => {
-    expect(sortBooks(books, 'title').map((item) => item.title)).toEqual(['Capitães da Areia', 'Dom Casmurro', 'Vidas Secas']);
+    expect(sortBooks(books, 'title').map((item) => item.title)).toEqual(['Hatchet', 'Holes', 'Wonder']);
   });
 
   it('sorts by author', () => {
-    expect(sortBooks(books, 'author').map((item) => item.author.name)).toEqual(['Graciliano Ramos', 'Jorge Amado', 'Machado de Assis']);
+    expect(sortBooks(books, 'author').map((item) => item.author.name)).toEqual(['Gary Paulsen', 'Louis Sachar', 'R. J. Palacio']);
   });
 
   it('puts the newest first', () => {
-    expect(sortBooks(books, 'newest').map((item) => item.year)).toEqual([1938, 1937, 1899]);
+    expect(sortBooks(books, 'newest').map((item) => item.year)).toEqual([2012, 1998, 1987]);
   });
 
   it('leaves the list it gets as it is', () => {

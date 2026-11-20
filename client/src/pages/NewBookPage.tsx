@@ -72,7 +72,7 @@ export function NewBookPage() {
         <div className={styles.row}>
           <div className={ui.field}>
             <label htmlFor="isbn">ISBN</label>
-            <input id="isbn" inputMode="numeric" placeholder="978-85-0000-000-0" maxLength={17} value={isbn} onChange={(event) => setIsbn(maskIsbn(event.target.value))} {...fieldProps('isbn')} />
+            <input id="isbn" inputMode="numeric" placeholder="978-0-0000-0000-0" maxLength={17} value={isbn} onChange={(event) => setIsbn(maskIsbn(event.target.value))} {...fieldProps('isbn')} />
             {fieldError('isbn')}
           </div>
           <div className={ui.field}>

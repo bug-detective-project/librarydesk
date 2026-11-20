@@ -5,7 +5,7 @@ import { ConfirmDialog } from '../components/ConfirmDialog.tsx';
 import { Icon } from '../components/Icon.tsx';
 import { LoanTable } from '../components/LoanTable.tsx';
 import ui from '../components/ui.module.css';
-import { finesDue, formatDay, formatMoment, formatReais, initials } from '../format.ts';
+import { finesDue, formatDay, formatMoment, formatDollars, initials } from '../format.ts';
 import { useLoanActions } from '../useLoanActions.ts';
 import { useResource } from '../useResource.ts';
 import { useToast } from '../useToast.ts';
@@ -37,7 +37,7 @@ export function ReaderPage() {
     setConfirming(false);
     try {
       await payFines(id);
-      toast.success(`${formatReais(due)} in fines paid`);
+      toast.success(`${formatDollars(due)} in fines paid`);
       reload();
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Could not mark the fines as paid');
@@ -62,7 +62,7 @@ export function ReaderPage() {
         </div>
         <section className={`${styles.fines} ${due > 0 ? styles.owing : ''}`} aria-label="Fines">
           <span className={styles.finesLabel}>Fines due</span>
-          <strong className={styles.amount}>{formatReais(due)}</strong>
+          <strong className={styles.amount}>{formatDollars(due)}</strong>
           {due > 0 && (
             <button type="button" className={ui.button} onClick={() => setConfirming(true)}>
               <Icon name="cash" />
@@ -101,7 +101,7 @@ export function ReaderPage() {
                   </span>
                   {Number(loan.fine) > 0 && (
                     <span className={loan.finePaid ? styles.paid : styles.unpaid}>
-                      {formatReais(Number(loan.fine))} {loan.finePaid ? 'paid' : 'due'}
+                      {formatDollars(Number(loan.fine))} {loan.finePaid ? 'paid' : 'due'}
                     </span>
                   )}
                 </li>
@@ -148,7 +148,7 @@ export function ReaderPage() {
 
       {confirming && (
         <ConfirmDialog title="Mark the fines as paid" confirmLabel="Mark as paid" confirmIcon="cash" onConfirm={pay} onCancel={() => setConfirming(false)}>
-          {reader.data.name} pays {formatReais(due)} at the desk. Every fine of theirs is marked as paid.
+          {reader.data.name} pays {formatDollars(due)} at the desk. Every fine of theirs is marked as paid.
         </ConfirmDialog>
       )}
     </article>

@@ -29,32 +29,33 @@ describe('readers', () => {
 
     expect(status).toBe(200);
     expect(body).toHaveLength(9);
-    expect(body[0]).toEqual({ id: 1, name: 'Ana Souza', group: 'Class 7B', card: 'R-0001', openLoans: 1, overdueLoans: 0, hasFines: false });
-    expect(body.find((reader) => reader.name === 'Bruno Lima')).toMatchObject({ openLoans: 1, overdueLoans: 1 });
-    expect(body.find((reader) => reader.name === 'Davi Rocha')).toMatchObject({ openLoans: 0, hasFines: true });
-    expect(body.find((reader) => reader.name === 'Elisa Martins')).toMatchObject({ hasFines: false });
+    expect(body[0]!.name).toBe('Ava Thompson');
+    expect(body.find((reader) => reader.name === 'Emma Johnson')).toEqual({ id: 1, name: 'Emma Johnson', group: 'Grade 7', card: 'R-0001', openLoans: 1, overdueLoans: 0, hasFines: false });
+    expect(body.find((reader) => reader.name === 'Liam Carter')).toMatchObject({ openLoans: 1, overdueLoans: 1 });
+    expect(body.find((reader) => reader.name === 'Noah Ramirez')).toMatchObject({ openLoans: 0, hasFines: true });
+    expect(body.find((reader) => reader.name === 'Ava Thompson')).toMatchObject({ hasFines: false });
   });
 
   it('are found by name or card', async () => {
-    expect((await api.get<ReaderSummary[]>('/api/readers?q=rocha')).body.map((reader) => reader.name)).toEqual(['Davi Rocha']);
-    expect((await api.get<ReaderSummary[]>('/api/readers?q=R-0008')).body.map((reader) => reader.name)).toEqual(['Helena Castro']);
+    expect((await api.get<ReaderSummary[]>('/api/readers?q=ramirez')).body.map((reader) => reader.name)).toEqual(['Noah Ramirez']);
+    expect((await api.get<ReaderSummary[]>('/api/readers?q=R-0008')).body.map((reader) => reader.name)).toEqual(['Laura Mitchell']);
   });
 
   it('show their classmates and the books they wait for', async () => {
     const { status, body } = await api.get<{ name: string; classmates: { name: string }[]; reservations: { book: { title: string } }[] }>('/api/readers/1');
 
     expect(status).toBe(200);
-    expect(body.name).toBe('Ana Souza');
-    expect(body.classmates.map((classmate) => classmate.name)).toEqual(['Bruno Lima', 'Carla Mendes']);
-    expect(body.reservations.map((reservation) => reservation.book.title)).toEqual(['Ou Isto ou Aquilo']);
+    expect(body.name).toBe('Emma Johnson');
+    expect(body.classmates.map((classmate) => classmate.name)).toEqual(['Liam Carter', 'Olivia Bennett']);
+    expect(body.reservations.map((reservation) => reservation.book.title)).toEqual(['A Wrinkle in Time']);
   });
 
   it('have their loans listed, the ones still out first', async () => {
     const { body } = await api.get<LoanView[]>('/api/readers/9/loans');
 
     expect(body.map((loan) => [loan.book.title, loan.status])).toEqual([
-      ['Memórias Póstumas de Brás Cubas', 'overdue'],
-      ['A Hora da Estrela', 'returned'],
+      ['Of Mice and Men', 'overdue'],
+      ['The Giver', 'returned'],
     ]);
   });
 
@@ -62,8 +63,8 @@ describe('readers', () => {
     const { body } = await api.get<LoanView[]>('/api/readers/4/loans');
 
     expect(body.map((loan) => [loan.book.title, loan.fine, loan.finePaid])).toEqual([
-      ['Reinações de Narizinho', '2.00', false],
-      ['Iracema', '1.50', false],
+      ['Charlotte\'s Web', '1.00', false],
+      ['Hatchet', '0.75', false],
     ]);
   });
 
@@ -74,6 +75,6 @@ describe('readers', () => {
     expect(body).toEqual({ paid: 2 });
     const { body: loans } = await api.get<LoanView[]>('/api/readers/4/loans');
     expect(loans.every((loan) => loan.finePaid)).toBe(true);
-    expect((await api.get<ReaderSummary[]>('/api/readers?q=davi')).body[0]!.hasFines).toBe(false);
+    expect((await api.get<ReaderSummary[]>('/api/readers?q=noah')).body[0]!.hasFines).toBe(false);
   });
 });

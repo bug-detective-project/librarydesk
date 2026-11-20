@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 import type { Loan } from '../api/types.ts';
-import { dueText, formatDay, formatReais } from '../format.ts';
+import { dueText, formatDay, formatDollars } from '../format.ts';
 import { useToday } from '../useToday.ts';
 import { Icon } from './Icon.tsx';
 import styles from './LoanTable.module.css';
@@ -65,7 +65,7 @@ export function LoanTable({ loans, label, showReader = true, busyId = null, onRe
                 <StatusBadge status={loan.status} />
               </td>
               <td data-label="Fine" className={Number(loan.fine) > 0 ? styles.fine : undefined}>
-                {Number(loan.fine) > 0 ? formatReais(Number(loan.fine)) : '—'}
+                {Number(loan.fine) > 0 ? formatDollars(Number(loan.fine)) : '—'}
               </td>
               {actions && (
                 <td className={styles.actions}>

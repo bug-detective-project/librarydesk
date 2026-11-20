@@ -15,8 +15,8 @@ describe('the collection', () => {
     await renderApp('/');
 
     const card = await screen.findByTestId('book-1');
-    expect(within(card).getByRole('link', { name: 'Dom Casmurro' })).toHaveAttribute('href', '/books/1');
-    expect(card).toHaveTextContent('Machado de Assis');
+    expect(within(card).getByRole('link', { name: 'To Kill a Mockingbird' })).toHaveAttribute('href', '/books/1');
+    expect(card).toHaveTextContent('Harper Lee');
     expect(card).toHaveTextContent('2 of 3 in');
     expect(screen.getByTestId('book-4')).toHaveTextContent('0 of 1 in');
   });
@@ -26,10 +26,10 @@ describe('the collection', () => {
     await renderApp('/');
     await screen.findByTestId('book-1');
 
-    await userEvent.type(screen.getByRole('searchbox', { name: 'Search the collection' }), 'amado');
+    await userEvent.type(screen.getByRole('searchbox', { name: 'Search the collection' }), 'lowry');
 
-    await waitFor(() => expect(titles()).toEqual(['Capitães da Areia']));
-    expect(api.calls('GET', '/api/books').at(-1)!.query.get('q')).toBe('amado');
+    await waitFor(() => expect(titles()).toEqual(['Number the Stars']));
+    expect(api.calls('GET', '/api/books').at(-1)!.query.get('q')).toBe('lowry');
   });
 
   it('says so when no book matches', async () => {
@@ -48,9 +48,9 @@ describe('the collection', () => {
     await screen.findByTestId('book-1');
 
     await userEvent.selectOptions(screen.getByRole('combobox', { name: 'Sort by' }), 'author');
-    expect(titles()[0]).toBe('Ou Isto ou Aquilo');
+    expect(titles()[0]).toBe('To Kill a Mockingbird');
 
     await userEvent.selectOptions(screen.getByRole('combobox', { name: 'Sort by' }), 'newest');
-    expect(titles()[0]).toBe('O Menino Maluquinho');
+    expect(titles()[0]).toBe('Wonder');
   });
 });

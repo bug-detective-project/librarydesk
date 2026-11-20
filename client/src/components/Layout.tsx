@@ -56,7 +56,7 @@ export function Layout() {
           </span>
           <div>
             <h1 className={styles.name}>LibraryDesk</h1>
-            <p className={styles.school}>Escola Estadual Ipê Amarelo</p>
+            <p className={styles.school}>Maple Grove Middle School</p>
           </div>
         </div>
         <button

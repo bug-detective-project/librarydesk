@@ -9,9 +9,9 @@ describe('the book page', () => {
     mockApi();
     await renderApp('/books/1');
 
-    expect(await screen.findByRole('heading', { name: 'Dom Casmurro', level: 2 })).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: 'To Kill a Mockingbird', level: 2 })).toBeInTheDocument();
     const lent = screen.getByTestId('copy-B001-1');
-    expect(within(lent).getByRole('link', { name: 'Ana Souza' })).toHaveAttribute('href', '/readers/1');
+    expect(within(lent).getByRole('link', { name: 'Emma Johnson' })).toHaveAttribute('href', '/readers/1');
     expect(lent).toHaveTextContent('until Mar 13, 2026');
     expect(screen.getByTestId('copy-B001-2')).not.toHaveTextContent('until');
   });
@@ -28,12 +28,12 @@ describe('the book page', () => {
     await renderApp('/books/1');
     const form = await screen.findByRole('form', { name: 'Lend a copy' });
 
-    await userEvent.selectOptions(within(form).getByRole('combobox', { name: 'Reader' }), 'Bruno Lima · Class 7B');
+    await userEvent.selectOptions(within(form).getByRole('combobox', { name: 'Reader' }), 'Liam Carter · Grade 7');
     await userEvent.click(within(form).getByRole('button', { name: 'Lend' }));
 
-    expect(await screen.findByText('Copy B001-2 lent to Bruno Lima until Mar 23, 2026')).toBeInTheDocument();
+    expect(await screen.findByText('Copy B001-2 lent to Liam Carter until Mar 23, 2026')).toBeInTheDocument();
     expect(api.calls('POST', '/api/loans')[0]!.body).toEqual({ copyId: 2, readerId: 2 });
-    expect(await within(screen.getByTestId('copy-B001-2')).findByRole('link', { name: 'Bruno Lima' })).toBeInTheDocument();
+    expect(await within(screen.getByTestId('copy-B001-2')).findByRole('link', { name: 'Liam Carter' })).toBeInTheDocument();
   });
 
   it('shows the queue of a book and says when every copy is out', async () => {
@@ -41,7 +41,7 @@ describe('the book page', () => {
     await renderApp('/books/4');
 
     const queue = await screen.findByRole('list', { name: 'Queue' });
-    expect(within(queue).getByRole('link', { name: 'Ana Souza' })).toBeInTheDocument();
+    expect(within(queue).getByRole('link', { name: 'Emma Johnson' })).toBeInTheDocument();
     expect(screen.getByText('Every copy is out. Reserve the book to join the queue.')).toBeInTheDocument();
   });
 
@@ -50,10 +50,10 @@ describe('the book page', () => {
     await renderApp('/books/2');
     const form = await screen.findByRole('form', { name: 'Reserve' });
 
-    await userEvent.selectOptions(within(form).getByRole('combobox', { name: 'Reader' }), 'Helena Castro · Teachers');
+    await userEvent.selectOptions(within(form).getByRole('combobox', { name: 'Reader' }), 'Laura Mitchell · Teachers');
     await userEvent.click(within(form).getByRole('button', { name: 'Reserve' }));
 
-    expect(await screen.findByText('A copy of O Tempo e o Vento is put aside for Helena Castro')).toBeInTheDocument();
+    expect(await screen.findByText('A copy of The Grapes of Wrath is put aside for Laura Mitchell')).toBeInTheDocument();
     expect(api.calls('POST', '/api/books/2/reservations')[0]!.body).toEqual({ readerId: 4 });
   });
 
